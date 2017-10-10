@@ -61,6 +61,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.botonCerrarArchivo = new System.Windows.Forms.Button();
+            this.listaArchivo = new System.Windows.Forms.ImageList(this.components);
             this.menuStrip1.SuspendLayout();
             this.tabControlArchivos.SuspendLayout();
             this.tabArchivo1.SuspendLayout();
@@ -137,6 +139,7 @@
             this.lista2.Images.SetKeyName(3, "open.png");
             this.lista2.Images.SetKeyName(4, "run.png");
             this.lista2.Images.SetKeyName(5, "save.png");
+            this.lista2.Images.SetKeyName(6, "close.png");
             // 
             // botonGuardarArchivo
             // 
@@ -232,7 +235,7 @@
             this.rich.AutoWordSelection = true;
             this.rich.Location = new System.Drawing.Point(3, 0);
             this.rich.Name = "rich";
-            this.rich.Size = new System.Drawing.Size(697, 253);
+            this.rich.Size = new System.Drawing.Size(697, 243);
             this.rich.TabIndex = 0;
             this.rich.Text = "";
             // 
@@ -368,12 +371,30 @@
             this.label5.TabIndex = 16;
             this.label5.Text = "Compilar";
             // 
+            // botonCerrarArchivo
+            // 
+            this.botonCerrarArchivo.ImageIndex = 0;
+            this.botonCerrarArchivo.ImageList = this.listaArchivo;
+            this.botonCerrarArchivo.Location = new System.Drawing.Point(1006, 78);
+            this.botonCerrarArchivo.Name = "botonCerrarArchivo";
+            this.botonCerrarArchivo.Size = new System.Drawing.Size(41, 26);
+            this.botonCerrarArchivo.TabIndex = 17;
+            this.botonCerrarArchivo.UseVisualStyleBackColor = true;
+            this.botonCerrarArchivo.Click += new System.EventHandler(this.botonCerrarArchivo_Click);
+            // 
+            // listaArchivo
+            // 
+            this.listaArchivo.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("listaArchivo.ImageStream")));
+            this.listaArchivo.TransparentColor = System.Drawing.Color.Transparent;
+            this.listaArchivo.Images.SetKeyName(0, "close.png");
+            // 
             // formPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1063, 617);
+            this.Controls.Add(this.botonCerrarArchivo);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -436,6 +457,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button botonCerrarArchivo;
+        private System.Windows.Forms.ImageList listaArchivo;
     }
 }
 

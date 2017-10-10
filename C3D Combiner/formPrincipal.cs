@@ -192,11 +192,13 @@ namespace C3D_Combiner
                     }
 
                     cambiarNombrePanel(nombreNuevoArchivo); // Cambiamos el título al panel
+                    dibujarNodo(pathNuevoArchivo); // Dibujamos el nodo.
                 }
 
             }
             else // Esto quiere decir que es un archivo nuevo.
             {
+                pathArchivoActual += nombreArchivo;
                 //Tenemos que encontrar el path del archivo
                 System.IO.File.WriteAllText(pathArchivoActual, contenidoArchivo); // Almacenamos el archivo
             }
@@ -335,63 +337,101 @@ namespace C3D_Combiner
             }
         }
 
-        public void AbrirArchivoAux()
+
+        public void dibujarNodo(String path)
         {
-            OpenFileDialog navegadorArchivos = new OpenFileDialog();
-            navegadorArchivos.Filter = "Archivos Tree (.tree)|*.tree|Archivos OLC++ (.olc)|*.olc";
-            navegadorArchivos.FilterIndex = 1;
-            if (navegadorArchivos.ShowDialog() == DialogResult.OK)
+            string nombreNodo = path;
+            nombreNodo = nombreNodo.Trim();
+            //clases.carpeta nuevaCarpeta = new clases.carpeta(nombreNodo);                
+            Char delimiter = '\\';
+            String[] substrings = nombreNodo.Split(delimiter);
+            String nombreArchivo = "";
+            foreach (var substring in substrings)
+                nombreArchivo = substring;
+            //Obtenemos la carpeta.
+            substrings = nombreNodo.Split(delimiter);
+            String nombreCarpeta = "";
+            String path_carpeta = "";
+            for (int c = 0; c < substrings.Length - 1; c++)
             {
-                string nombreNodo = navegadorArchivos.FileName;
-                nombreNodo = nombreNodo.Trim();
-                //clases.carpeta nuevaCarpeta = new clases.carpeta(nombreNodo);                
-                Char delimiter = '\\';
-                String[] substrings = nombreNodo.Split(delimiter);
-                String nombreArchivo = "";
-                foreach (var substring in substrings)
-                    nombreArchivo = substring;
-                //Obtenemos la carpeta.
-                substrings = nombreNodo.Split(delimiter);
-                String nombreCarpeta = "";
-                String path_carpeta = "";
-                for (int c = 0; c < substrings.Length - 1; c++)
+                nombreCarpeta = substrings[c];
+                path_carpeta += substrings[c] + "\\";
+            }
+            clases.carpeta tmpCarpeta = new clases.carpeta(nombreCarpeta);
+            clases.carpeta nuevaCarpeta = new clases.carpeta(nombreCarpeta);
+            nuevaCarpeta.path = path_carpeta;
+
+
+            //Buscamos si la carpeta ya está en el arbol.
+            int i = 0;
+            int posicion = -1;
+            foreach (clases.carpeta obj in paths_carpetas)
+            {
+                //Console.WriteLine("{0}",obj.nombre);
+                //Console.WriteLine("{0}",nombreCarpeta);
+                if (obj.nombre.Equals(nombreCarpeta))
                 {
-                    nombreCarpeta = substrings[c];
-                    path_carpeta += substrings[c] + "\\";
+                    posicion = i;
+                    Console.WriteLine("Carpeta Montada en el sistemas.");
                 }
-                clases.carpeta tmpCarpeta = new clases.carpeta(nombreCarpeta);
-                clases.carpeta nuevaCarpeta = new clases.carpeta(nombreCarpeta);
-                nuevaCarpeta.path = path_carpeta;
+                i++;
+            }
 
 
-                //Buscamos si la carpeta ya está en el arbol.
-                int i = 0;
-                int posicion = -1;
-                foreach (clases.carpeta obj in paths_carpetas)
+
+            if (posicion == -1) // Significa que no está la carpeta en el sistema de archivos (Arbol :v).
+            {
+                TreeNode carpeta = new TreeNode();
+                carpeta.Name = nombreCarpeta;
+                carpeta.Text = nombreCarpeta;
+                carpeta.ImageIndex = 0;
+                TreeNode archivo = new TreeNode();
+                archivo.Name = nombreArchivo;
+                archivo.Text = nombreArchivo;
+
+                //Verificamos qué icono le agregamos
+                delimiter = '.';
+                substrings = nombreNodo.Split(delimiter);
+                if (substrings[1].Equals("tree"))
                 {
-                    //Console.WriteLine("{0}",obj.nombre);
-                    //Console.WriteLine("{0}",nombreCarpeta);
-                    if (obj.nombre.Equals(nombreCarpeta))
+                    archivo.ImageIndex = 2;
+                }
+                else
+                {
+                    archivo.ImageIndex = 1;
+                }
+
+                carpeta.Nodes.Add(archivo);
+                vistaArbol.Nodes.Add(carpeta);
+                nuevaCarpeta.nombre = carpeta.Name;
+                paths_carpetas.Add(nuevaCarpeta);
+            }
+            else // Significa que si está la carpeta en el sistema de archivos (Arbol :v).
+            {
+                //Primero obtenemos una copia del nodo actual.
+                TreeNode[] carpetas = vistaArbol.Nodes.Find(nombreCarpeta, false);
+                TreeNode tmp = carpetas[0];
+
+                //Ahora verificamos que el archivo no esté ya en el sistema de archivos.
+                int Archivo_posicion = -1;
+                i = 0;
+                foreach (TreeNode archivotmp in tmp.Nodes)
+                {
+                    if (archivotmp.Name.Equals(nombreArchivo))
                     {
-                        posicion = i;
-                        Console.WriteLine("Carpeta Montada en el sistemas.");
+                        Archivo_posicion = i;
                     }
                     i++;
                 }
 
-
-
-                if (posicion == -1) // Significa que no está la carpeta en el sistema de archivos (Arbol :v).
+                if (Archivo_posicion == -1)
                 {
-                    TreeNode carpeta = new TreeNode();
-                    carpeta.Name = nombreCarpeta;
-                    carpeta.Text = nombreCarpeta;
-                    carpeta.ImageIndex = 0;
+
+
                     TreeNode archivo = new TreeNode();
                     archivo.Name = nombreArchivo;
                     archivo.Text = nombreArchivo;
-
-                    //Verificamos qué icono le agregamos
+                    //Obtenemos el icono que se le agrega al anodo segun el archivo que sea.
                     delimiter = '.';
                     substrings = nombreNodo.Split(delimiter);
                     if (substrings[1].Equals("tree"))
@@ -402,69 +442,35 @@ namespace C3D_Combiner
                     {
                         archivo.ImageIndex = 1;
                     }
-
-                    carpeta.Nodes.Add(archivo);
-                    vistaArbol.Nodes.Add(carpeta);
-                    nuevaCarpeta.nombre = carpeta.Name;
-                    paths_carpetas.Add(nuevaCarpeta);
+                    //archivo.ImageIndex = 2;
+                    tmp.ImageIndex = 0;
+                    tmp.Nodes.Add(archivo);
+                    tmp.ImageIndex = 0;
+                    vistaArbol.Nodes.RemoveAt(posicion);
+                    vistaArbol.Nodes.Add(tmp);
+                    nuevaCarpeta.nombre = tmp.Name;
+                    paths_carpetas.RemoveAt(posicion);
+                    paths_carpetas.Insert(posicion, nuevaCarpeta);
                 }
-                else // Significa que si está la carpeta en el sistema de archivos (Arbol :v).
+                else
                 {
-                    //Primero obtenemos una copia del nodo actual.
-                    TreeNode[] carpetas = vistaArbol.Nodes.Find(nombreCarpeta, false);
-                    TreeNode tmp = carpetas[0];
-
-                    //Ahora verificamos que el archivo no esté ya en el sistema de archivos.
-                    int Archivo_posicion = -1;
-                    i = 0;
-                    foreach (TreeNode archivotmp in tmp.Nodes)
-                    {
-                        if (archivotmp.Name.Equals(nombreArchivo))
-                        {
-                            Archivo_posicion = i;
-                        }
-                        i++;
-                    }
-
-                    if (Archivo_posicion == -1)
-                    {
-
-
-                        TreeNode archivo = new TreeNode();
-                        archivo.Name = nombreArchivo;
-                        archivo.Text = nombreArchivo;
-                        //Obtenemos el icono que se le agrega al anodo segun el archivo que sea.
-                        delimiter = '.';
-                        substrings = nombreNodo.Split(delimiter);
-                        if (substrings[1].Equals("tree"))
-                        {
-                            archivo.ImageIndex = 2;
-                        }
-                        else
-                        {
-                            archivo.ImageIndex = 1;
-                        }
-                        //archivo.ImageIndex = 2;
-                        tmp.ImageIndex = 0;
-                        tmp.Nodes.Add(archivo);
-                        tmp.ImageIndex = 0;
-                        vistaArbol.Nodes.RemoveAt(posicion);
-                        vistaArbol.Nodes.Add(tmp);
-                        nuevaCarpeta.nombre = tmp.Name;
-                        paths_carpetas.RemoveAt(posicion);
-                        paths_carpetas.Insert(posicion, nuevaCarpeta);
-                    }
-                    else
-                    {
-                        MessageBox.Show("El archivo seleccionado ya se encuentra cargado en el sistema.");
-                    }
-                    //TreeNode carpeta = new TreeNode();
+                    MessageBox.Show("El archivo seleccionado ya se encuentra cargado en el sistema.");
                 }
+                //TreeNode carpeta = new TreeNode();
             }
-        }
-        public void dibujarNodo(String path)
-        {
 
+        }
+
+        private void botonCerrarArchivo_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("¿Desea guardar los últimos cambios?", "Aviso",
+                  MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                  == DialogResult.Yes)
+            {
+                guardarArchivo();
+            }
+            tabControlArchivos.Controls.RemoveAt(tabControlArchivos.SelectedIndex);
+            //tabControlArchivos.TabPages[tabControlArchivos.SelectedIndex].Text = texto;
         }
     }
 
