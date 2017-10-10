@@ -136,6 +136,7 @@ namespace C3D_Combiner
 
         public void AbrirArchivo(String nombre, String texto)
         {
+            
             TabPage tmpTabpage = new TabPage();
             tmpTabpage.Text = nombre;
             RichTextBox tmpTextBox = new RichTextBox();
@@ -143,6 +144,7 @@ namespace C3D_Combiner
             tmpTextBox.AutoWordSelection = true;
             tmpTextBox.Location = new System.Drawing.Point(3, 0);
             tmpTextBox.Name = "rich";
+            //tmpTextBox.TextChanged += new System.EventHandler(this.tmpTextBox);
             tmpTextBox.Size = new System.Drawing.Size(697, 253);
             tmpTabpage.Controls.Add(tmpTextBox);
             tabControlArchivos.Controls.Add(tmpTabpage);
@@ -472,6 +474,20 @@ namespace C3D_Combiner
             tabControlArchivos.Controls.RemoveAt(tabControlArchivos.SelectedIndex);
             //tabControlArchivos.TabPages[tabControlArchivos.SelectedIndex].Text = texto;
         }
+
+        private void rich_TextChanged(object sender, EventArgs e)
+        {
+            char delimitador = '\n';
+            int lineas = rich.Text.Split(delimitador).Length;
+            //int indice = rich
+            Console.WriteLine("Numero de Lineas {0}.",lineas);
+        }
+
+
+
+        //#######################################################################################
+
+
     }
 
 

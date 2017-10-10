@@ -35,7 +35,7 @@
             this.richCodigoClase = new System.Windows.Forms.RichTextBox();
             this.comboBoxLenguajes = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.panelDibujo = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.botonDependencia = new System.Windows.Forms.Button();
             this.botonAsociacion = new System.Windows.Forms.Button();
@@ -59,7 +59,7 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.comboBoxLenguajes);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.panel3);
+            this.panel1.Controls.Add(this.panelDibujo);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(12, 34);
@@ -115,14 +115,16 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Area de diseño de clases";
             // 
-            // panel3
+            // panelDibujo
             // 
-            this.panel3.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel3.Location = new System.Drawing.Point(243, 32);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(472, 611);
-            this.panel3.TabIndex = 3;
+            this.panelDibujo.AutoScroll = true;
+            this.panelDibujo.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panelDibujo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelDibujo.Location = new System.Drawing.Point(243, 32);
+            this.panelDibujo.Name = "panelDibujo";
+            this.panelDibujo.Size = new System.Drawing.Size(472, 611);
+            this.panelDibujo.TabIndex = 3;
+            this.panelDibujo.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
             // panel2
             // 
@@ -135,7 +137,7 @@
             this.panel2.Controls.Add(this.botonClase);
             this.panel2.Location = new System.Drawing.Point(10, 32);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(227, 611);
+            this.panel2.Size = new System.Drawing.Size(204, 611);
             this.panel2.TabIndex = 2;
             // 
             // botonDependencia
@@ -146,6 +148,7 @@
             this.botonDependencia.Size = new System.Drawing.Size(193, 50);
             this.botonDependencia.TabIndex = 4;
             this.botonDependencia.UseVisualStyleBackColor = true;
+            this.botonDependencia.Click += new System.EventHandler(this.botonDependencia_Click);
             // 
             // botonAsociacion
             // 
@@ -155,15 +158,17 @@
             this.botonAsociacion.Size = new System.Drawing.Size(193, 62);
             this.botonAsociacion.TabIndex = 3;
             this.botonAsociacion.UseVisualStyleBackColor = true;
+            this.botonAsociacion.Click += new System.EventHandler(this.botonAsociacion_Click);
             // 
             // botonAgregacion
             // 
             this.botonAgregacion.Image = ((System.Drawing.Image)(resources.GetObject("botonAgregacion.Image")));
-            this.botonAgregacion.Location = new System.Drawing.Point(15, 240);
+            this.botonAgregacion.Location = new System.Drawing.Point(3, 240);
             this.botonAgregacion.Name = "botonAgregacion";
             this.botonAgregacion.Size = new System.Drawing.Size(193, 55);
             this.botonAgregacion.TabIndex = 2;
             this.botonAgregacion.UseVisualStyleBackColor = true;
+            this.botonAgregacion.Click += new System.EventHandler(this.botonAgregacion_Click);
             // 
             // botonHerencia
             // 
@@ -173,6 +178,7 @@
             this.botonHerencia.Size = new System.Drawing.Size(205, 72);
             this.botonHerencia.TabIndex = 1;
             this.botonHerencia.UseVisualStyleBackColor = true;
+            this.botonHerencia.Click += new System.EventHandler(this.botonHerencia_Click);
             // 
             // botonClase
             // 
@@ -182,6 +188,7 @@
             this.botonClase.Size = new System.Drawing.Size(149, 133);
             this.botonClase.TabIndex = 0;
             this.botonClase.UseVisualStyleBackColor = true;
+            this.botonClase.Click += new System.EventHandler(this.botonClase_Click);
             // 
             // label1
             // 
@@ -257,7 +264,7 @@
         private System.Windows.Forms.RichTextBox richCodigoClase;
         private System.Windows.Forms.ComboBox comboBoxLenguajes;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panelDibujo;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.MenuStrip menuStrip1;

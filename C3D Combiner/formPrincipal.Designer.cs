@@ -47,6 +47,7 @@
             this.listaImagenes = new System.Windows.Forms.ImageList(this.components);
             this.tabControlArchivos = new System.Windows.Forms.TabControl();
             this.tabArchivo1 = new System.Windows.Forms.TabPage();
+            this.LineNumberTextBox = new System.Windows.Forms.RichTextBox();
             this.rich = new System.Windows.Forms.RichTextBox();
             this.tabControlSalida = new System.Windows.Forms.TabControl();
             this.tabSalida = new System.Windows.Forms.TabPage();
@@ -221,6 +222,7 @@
             // 
             // tabArchivo1
             // 
+            this.tabArchivo1.Controls.Add(this.LineNumberTextBox);
             this.tabArchivo1.Controls.Add(this.rich);
             this.tabArchivo1.Location = new System.Drawing.Point(4, 22);
             this.tabArchivo1.Name = "tabArchivo1";
@@ -230,14 +232,30 @@
             this.tabArchivo1.Text = "Nuevo";
             this.tabArchivo1.UseVisualStyleBackColor = true;
             // 
+            // LineNumberTextBox
+            // 
+            this.LineNumberTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.LineNumberTextBox.Cursor = System.Windows.Forms.Cursors.PanNE;
+            this.LineNumberTextBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.LineNumberTextBox.Location = new System.Drawing.Point(3, 3);
+            this.LineNumberTextBox.Name = "LineNumberTextBox";
+            this.LineNumberTextBox.ReadOnly = true;
+            this.LineNumberTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.LineNumberTextBox.Size = new System.Drawing.Size(42, 243);
+            this.LineNumberTextBox.TabIndex = 1;
+            this.LineNumberTextBox.Text = "";
+            // 
             // rich
             // 
             this.rich.AutoWordSelection = true;
-            this.rich.Location = new System.Drawing.Point(3, 0);
+            this.rich.Cursor = System.Windows.Forms.Cursors.PanNE;
+            this.rich.Location = new System.Drawing.Point(44, 0);
             this.rich.Name = "rich";
-            this.rich.Size = new System.Drawing.Size(697, 243);
+            this.rich.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.rich.Size = new System.Drawing.Size(656, 243);
             this.rich.TabIndex = 0;
             this.rich.Text = "";
+            this.rich.TextChanged += new System.EventHandler(this.rich_TextChanged);
             // 
             // tabControlSalida
             // 
@@ -459,6 +477,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button botonCerrarArchivo;
         private System.Windows.Forms.ImageList listaArchivo;
+        private System.Windows.Forms.RichTextBox LineNumberTextBox;
     }
 }
 
