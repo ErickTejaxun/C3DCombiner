@@ -14,12 +14,20 @@
 'C3D Combiner.vshost.exe' (CLR v4.0.30319: C3D Combiner.vshost.exe): 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Deployment\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Deployment.dll' cargado. Se omitió la carga de símbolos. El módulo está optimizado y la opción del depurador 'Sólo mi código' está habilitada.
 'C3D Combiner.vshost.exe' (CLR v4.0.30319: C3D Combiner.vshost.exe): 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Net.Http\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Net.Http.dll' cargado. Se omitió la carga de símbolos. El módulo está optimizado y la opción del depurador 'Sólo mi código' está habilitada.
 'C3D Combiner.vshost.exe' (CLR v4.0.30319: C3D Combiner.vshost.exe): 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Xml\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.dll' cargado. Se omitió la carga de símbolos. El módulo está optimizado y la opción del depurador 'Sólo mi código' está habilitada.
-El subproceso 0x28ec terminó con código 0 (0x0).
-El subproceso 0x2a54 terminó con código 0 (0x0).
+'C3D Combiner.vshost.exe' (CLR v4.0.30319: C3D Combiner.vshost.exe): 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\mscorlib.resources\v4.0_4.0.0.0_es_b77a5c561934e089\mscorlib.resources.dll' cargado. El módulo se compiló sin símbolos.
+El subproceso 0x3b74 terminó con código 0 (0x0).
+El subproceso 0x524 terminó con código 0 (0x0).
 'C3D Combiner.vshost.exe' (CLR v4.0.30319: C3D Combiner.vshost.exe): 'C:\Users\erick\Documents\Visual Studio 2015\Projects\C3D Combiner\C3D Combiner\bin\Debug\C3D Combiner.exe' cargado. Símbolos cargados.
 'C3D Combiner.vshost.exe' (CLR v4.0.30319: C3D Combiner.vshost.exe): 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Configuration\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Configuration.dll' cargado. Se omitió la carga de símbolos. El módulo está optimizado y la opción del depurador 'Sólo mi código' está habilitada.
-Carpeta Montada en el sistemas.
-'C3D Combiner.vshost.exe' (CLR v4.0.30319: C3D Combiner.vshost.exe): 'C:\Windows\Microsoft.Net\assembly\GAC_MSIL\mscorlib.resources\v4.0_4.0.0.0_es_b77a5c561934e089\mscorlib.resources.dll' cargado. El módulo se compiló sin símbolos.
-El subproceso 0x38b0 terminó con código 0 (0x0).
-El subproceso 0x3a08 terminó con código 0 (0x0).
-El programa '[7584] C3D Combiner.vshost.exe' terminó con código 0 (0x0).
+El subproceso 0x20d0 terminó con código 0 (0x0).
+Path C:\Users\erick\Desktop\lib_Nueva.tree contendio : clase bidon[]:
+ booleano lleno => false
+ privado entero capacidad
+ publico entero status
+ __constructor[entero a]:
+ capacidad => a
+ protegido booleano estaLLeno[]:
+ retornar lleno
+El subproceso 0x3ad0 terminó con código 0 (0x0).
+El subproceso 0xe4c terminó con código 0 (0x0).
+El programa '[14028] C3D Combiner.vshost.exe' terminó con código 0 (0x0).

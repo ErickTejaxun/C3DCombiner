@@ -38,6 +38,7 @@
             this.menuCompartido = new System.Windows.Forms.ToolStripMenuItem();
             this.menuReportes = new System.Windows.Forms.ToolStripMenuItem();
             this.botonNuevoArchivo = new System.Windows.Forms.Button();
+            this.lista2 = new System.Windows.Forms.ImageList(this.components);
             this.botonGuardarArchivo = new System.Windows.Forms.Button();
             this.botonAbrir = new System.Windows.Forms.Button();
             this.botonCrearCarpeta = new System.Windows.Forms.Button();
@@ -46,7 +47,7 @@
             this.listaImagenes = new System.Windows.Forms.ImageList(this.components);
             this.tabControlArchivos = new System.Windows.Forms.TabControl();
             this.tabArchivo1 = new System.Windows.Forms.TabPage();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.rich = new System.Windows.Forms.RichTextBox();
             this.tabControlSalida = new System.Windows.Forms.TabControl();
             this.tabSalida = new System.Windows.Forms.TabPage();
             this.tabErrores = new System.Windows.Forms.TabPage();
@@ -55,7 +56,6 @@
             this.tab3dOptimizacion = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.lista2 = new System.Windows.Forms.ImageList(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -127,6 +127,17 @@
             this.botonNuevoArchivo.UseVisualStyleBackColor = true;
             this.botonNuevoArchivo.Click += new System.EventHandler(this.botonNuevoArchivo_Click);
             // 
+            // lista2
+            // 
+            this.lista2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lista2.ImageStream")));
+            this.lista2.TransparentColor = System.Drawing.Color.Transparent;
+            this.lista2.Images.SetKeyName(0, "folder.png");
+            this.lista2.Images.SetKeyName(1, "nuevo.jpg");
+            this.lista2.Images.SetKeyName(2, "open.ico");
+            this.lista2.Images.SetKeyName(3, "open.png");
+            this.lista2.Images.SetKeyName(4, "run.png");
+            this.lista2.Images.SetKeyName(5, "save.png");
+            // 
             // botonGuardarArchivo
             // 
             this.botonGuardarArchivo.ImageIndex = 5;
@@ -177,7 +188,7 @@
             this.vistaArbol.ImageList = this.listaImagenes;
             this.vistaArbol.Location = new System.Drawing.Point(3, 3);
             this.vistaArbol.Name = "vistaArbol";
-            this.vistaArbol.SelectedImageIndex = 0;
+            this.vistaArbol.SelectedImageIndex = 6;
             this.vistaArbol.Size = new System.Drawing.Size(324, 275);
             this.vistaArbol.StateImageList = this.listaImagenes;
             this.vistaArbol.TabIndex = 6;
@@ -207,7 +218,7 @@
             // 
             // tabArchivo1
             // 
-            this.tabArchivo1.Controls.Add(this.richTextBox1);
+            this.tabArchivo1.Controls.Add(this.rich);
             this.tabArchivo1.Location = new System.Drawing.Point(4, 22);
             this.tabArchivo1.Name = "tabArchivo1";
             this.tabArchivo1.Padding = new System.Windows.Forms.Padding(3);
@@ -216,14 +227,14 @@
             this.tabArchivo1.Text = "Nuevo";
             this.tabArchivo1.UseVisualStyleBackColor = true;
             // 
-            // richTextBox1
+            // rich
             // 
-            this.richTextBox1.AutoWordSelection = true;
-            this.richTextBox1.Location = new System.Drawing.Point(3, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(697, 253);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.rich.AutoWordSelection = true;
+            this.rich.Location = new System.Drawing.Point(3, 0);
+            this.rich.Name = "rich";
+            this.rich.Size = new System.Drawing.Size(697, 253);
+            this.rich.TabIndex = 0;
+            this.rich.Text = "";
             // 
             // tabControlSalida
             // 
@@ -254,7 +265,7 @@
             this.tabErrores.Location = new System.Drawing.Point(4, 22);
             this.tabErrores.Name = "tabErrores";
             this.tabErrores.Padding = new System.Windows.Forms.Padding(3);
-            this.tabErrores.Size = new System.Drawing.Size(186, 68);
+            this.tabErrores.Size = new System.Drawing.Size(1018, 177);
             this.tabErrores.TabIndex = 1;
             this.tabErrores.Text = "Errores";
             this.tabErrores.UseVisualStyleBackColor = true;
@@ -311,17 +322,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1032, 209);
             this.tableLayoutPanel2.TabIndex = 11;
-            // 
-            // lista2
-            // 
-            this.lista2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lista2.ImageStream")));
-            this.lista2.TransparentColor = System.Drawing.Color.Transparent;
-            this.lista2.Images.SetKeyName(0, "folder.png");
-            this.lista2.Images.SetKeyName(1, "nuevo.jpg");
-            this.lista2.Images.SetKeyName(2, "open.ico");
-            this.lista2.Images.SetKeyName(3, "open.png");
-            this.lista2.Images.SetKeyName(4, "run.png");
-            this.lista2.Images.SetKeyName(5, "save.png");
             // 
             // label1
             // 
@@ -426,7 +426,7 @@
         private System.Windows.Forms.TabPage tab3d;
         private System.Windows.Forms.TabPage tab3dOptimizacion;
         private System.Windows.Forms.ToolStripMenuItem menuDiagramaUML;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox rich;
         private System.Windows.Forms.ImageList listaImagenes;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
