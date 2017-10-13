@@ -78,7 +78,7 @@ namespace C3D_Combiner
             flag = 1;
         }
 
-        private void panel3_Paint(object sender, PaintEventArgs e)
+        private void panelDibujo_Paint(object sender, PaintEventArgs e)
         {
             if (flag == 1)
             {

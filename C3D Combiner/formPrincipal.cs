@@ -11,6 +11,11 @@ using System.IO;
 using System.Collections;
 using System.Threading;
 
+using System.Text;
+using Irony.Parsing;
+using Irony.Ast;
+using Irony.Parsing;
+
 namespace C3D_Combiner
 {
     public partial class formPrincipal : Form
@@ -30,6 +35,13 @@ namespace C3D_Combiner
         {
             InitializeComponent();
 
+        }
+        public bool esCadenaValida(string cadenaEntrada, Grammar gramatica)
+        {
+            LanguageData lenguaje = new LanguageData(gramatica);
+            Parser p = new Parser(lenguaje);
+            ParseTree arbol = p.Parse(cadenaEntrada);
+            return arbol.Root != null;
         }
 
         private void menuUML_Click(object sender, EventArgs e)
@@ -81,6 +93,48 @@ namespace C3D_Combiner
 
         private void botonCompilar_Click(object sender, EventArgs e)
         {
+            lanzarAnalisis();
+
+
+        }
+
+        public void lanzarAnalisis()
+        {
+            String contenidoArchivo = ""; // Contenido del archivo.
+            int panelSeleccionado = tabControlArchivos.SelectedIndex;
+            String nombreArchivo = tabControlArchivos.TabPages[panelSeleccionado].Text;
+            Control[] richActual = tabControlArchivos.TabPages[panelSeleccionado].Controls.Find("rich", false);
+            if (richActual.Length > 0)
+            {
+                contenidoArchivo = richActual[0].Text;
+            }
+
+            Analizador analizador = new Analizador();
+            //treeAnalizador analizador = new treeAnalizador();
+            //Gramatica grammatica = new Gramatica();
+            treeGramatica grammatica = new treeGramatica();
+            if (analizador.esCadenaValida(contenidoArchivo, grammatica))
+            {
+                MessageBox.Show("Arbol de Analisis Sintactico Constuido !!!");
+            }
+            else
+            {
+                MessageBox.Show("Errores en la cadena de entrada");
+            }
+        }
+        public void comenzarAnalisis()
+        {
+            String contenidoArchivo = ""; // Contenido del archivo.
+            treeGramatica nuevoAnazilador = new treeGramatica();
+            //Obtenemos el codigo.
+            int panelSeleccionado = tabControlArchivos.SelectedIndex;
+            String nombreArchivo = tabControlArchivos.TabPages[panelSeleccionado].Text;
+            Control[] richActual = tabControlArchivos.TabPages[panelSeleccionado].Controls.Find("rich", false);
+            if (richActual.Length > 0)
+            {
+                contenidoArchivo = richActual[0].Text;
+            }
+            
 
         }
 

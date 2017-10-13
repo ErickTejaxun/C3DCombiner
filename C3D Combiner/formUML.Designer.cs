@@ -118,13 +118,13 @@
             // panelDibujo
             // 
             this.panelDibujo.AutoScroll = true;
-            this.panelDibujo.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panelDibujo.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.panelDibujo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelDibujo.Location = new System.Drawing.Point(243, 32);
             this.panelDibujo.Name = "panelDibujo";
             this.panelDibujo.Size = new System.Drawing.Size(472, 611);
             this.panelDibujo.TabIndex = 3;
-            this.panelDibujo.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            this.panelDibujo.Paint += new System.Windows.Forms.PaintEventHandler(this.panelDibujo_Paint);
             // 
             // panel2
             // 

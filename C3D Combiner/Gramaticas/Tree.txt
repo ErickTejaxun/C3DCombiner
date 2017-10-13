@@ -1,0 +1,7 @@
+Comentarios :
+
+## Yo son un comentario de una sola linea Inicia con el ## y termina con \n
+{--
+Ejemplo de comentario con un chingo de lineas.
+
+--}
