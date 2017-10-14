@@ -18,11 +18,15 @@ namespace C3D_Combiner
             // Expresiones regulares se escribe de la siguiente forma
             //existe multiples formas de crear expresiones regulares puedes revisar la documentacion.
             //Valores
-            RegexBasedTerminal id = new RegexBasedTerminal("id", "[0-9]*[a-zA-Z][0-9a-zA-Z]*");            
-            RegexBasedTerminal numEntero = new RegexBasedTerminal("numEntero", "[0-9]+");
-            RegexBasedTerminal numDouble = new RegexBasedTerminal("numDouble", "[0-9]+");
-            RegexBasedTerminal cadenaComillas = new RegexBasedTerminal("cadenaComillas", "\"", "\"");
-            RegexBasedTerminal caracterComillas = new RegexBasedTerminal("caracterComillas", "'", "'");
+            RegexBasedTerminal id = new RegexBasedTerminal("id", "[0-9]*[a-zA-Z][0-9a-zA-Z]*");
+            //RegexBasedTerminal numEntero = new RegexBasedTerminal("numEntero", "[0-9]+");
+            //RegexBasedTerminal numDouble = new RegexBasedTerminal("numDouble", "[0-9]+.[0-9]*");
+            NumberLiteral numero = new NumberLiteral("NUMBER");
+            //RegexBasedTerminal cadenaComillas = new RegexBasedTerminal("cadenaComillas", "\"", "\"");
+            //RegexBasedTerminal caracterComillas = new RegexBasedTerminal("caracterComillas", "'", "'");
+            StringLiteral cadenaComillas = new StringLiteral("cadenaComillas", "\"");
+            StringLiteral caracterComillas = new StringLiteral("caracterComillas", "'");
+            
 
             RegexBasedTerminal abrirParentesis = new RegexBasedTerminal("abrirParentesis","(");
             RegexBasedTerminal cerrarParentesis = new RegexBasedTerminal("cerrarParentesis", ")");
@@ -71,7 +75,8 @@ namespace C3D_Combiner
             CommentTerminal comentarioUniLinea = new CommentTerminal("comentarioUniLinea", "##","\n");
             CommentTerminal comentarioMultiLinea = new CommentTerminal("comentarioMultiLinea", "<--", "-->");
 
-            base.NonGrammarTerminals.Add(comentarioUniLinea);
+            NonGrammarTerminals.Add(comentarioUniLinea);
+            NonGrammarTerminals.Add(comentarioMultiLinea);
 
             //la gramatica siguiente acepta cadenas de entradas de la forma : esto-es-una-lista-de-555-numeros-y-letras-55-61-12-32
 
@@ -100,27 +105,27 @@ namespace C3D_Combiner
            /* EXPRESION.Rule = EXPRESION
                              | VALOR;*/
 
-            VALOR.Rule =  numDouble
-                         |numEntero
-                         |id
+            VALOR.Rule = numero
+                         | id
                          |cadenaComillas
                          |caracterComillas;
 
-            DIMENSION.Rule = DIMENSION 
-                            |DIMENSION + DIMENSION
-                            | abrirCorchete + numEntero + cerrarCorchete;
+            DIMENSION.Rule =
+                             //DIMENSION 
+                             //           |DIMENSION + abrirCorchete + numEntero + cerrarCorchete numEntero +
+                             abrirCorchete;
 
-            DECLARACION.Rule =  TIPO + LISTA_VARIABLES
-                               |TIPO + id + DIMENSION;
+            DECLARACION.Rule = TIPO + LISTA_VARIABLES
+                               |TIPO + LISTA_VARIABLES + DIMENSION;
 
             TIPO.Rule = tipoBool | tipoCaracter | tipoDoble | tipoEntero | tipoCadena;
 
-            LISTA_VARIABLES.Rule = LISTA_VARIABLES 
-                                    | LISTA_VARIABLES + coma + id
-                                    |id;
+            LISTA_VARIABLES.Rule =LISTA_VARIABLES 
+                                  |LISTA_VARIABLES + coma + id
+                                  |id;
 
             //indicamos la produccion inicial con la siguiente linea
-            this.Root = LISTA_VARIABLES;
+            this.Root = DIMENSION;
 
             MarkPunctuation("-");
         }
