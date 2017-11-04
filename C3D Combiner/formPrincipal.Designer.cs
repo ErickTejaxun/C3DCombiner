@@ -45,10 +45,6 @@
             this.botonCompilar = new System.Windows.Forms.Button();
             this.vistaArbol = new System.Windows.Forms.TreeView();
             this.listaImagenes = new System.Windows.Forms.ImageList(this.components);
-            this.tabControlArchivos = new System.Windows.Forms.TabControl();
-            this.tabArchivo1 = new System.Windows.Forms.TabPage();
-            this.LineNumberTextBox = new System.Windows.Forms.RichTextBox();
-            this.rich = new System.Windows.Forms.RichTextBox();
             this.tabControlSalida = new System.Windows.Forms.TabControl();
             this.tabSalida = new System.Windows.Forms.TabPage();
             this.tabErrores = new System.Windows.Forms.TabPage();
@@ -56,6 +52,7 @@
             this.tab3d = new System.Windows.Forms.TabPage();
             this.tab3dOptimizacion = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tabControlArchivos = new System.Windows.Forms.TabControl();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -64,10 +61,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.botonCerrarArchivo = new System.Windows.Forms.Button();
             this.listaArchivo = new System.Windows.Forms.ImageList(this.components);
+            this.richErrores = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
-            this.tabControlArchivos.SuspendLayout();
-            this.tabArchivo1.SuspendLayout();
             this.tabControlSalida.SuspendLayout();
+            this.tabErrores.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -211,52 +208,6 @@
             this.listaImagenes.Images.SetKeyName(6, "run.png");
             this.listaImagenes.Images.SetKeyName(7, "save.png");
             // 
-            // tabControlArchivos
-            // 
-            this.tabControlArchivos.Controls.Add(this.tabArchivo1);
-            this.tabControlArchivos.Location = new System.Drawing.Point(334, 3);
-            this.tabControlArchivos.Name = "tabControlArchivos";
-            this.tabControlArchivos.SelectedIndex = 0;
-            this.tabControlArchivos.Size = new System.Drawing.Size(701, 275);
-            this.tabControlArchivos.TabIndex = 8;
-            // 
-            // tabArchivo1
-            // 
-            this.tabArchivo1.Controls.Add(this.LineNumberTextBox);
-            this.tabArchivo1.Controls.Add(this.rich);
-            this.tabArchivo1.Location = new System.Drawing.Point(4, 22);
-            this.tabArchivo1.Name = "tabArchivo1";
-            this.tabArchivo1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabArchivo1.Size = new System.Drawing.Size(693, 249);
-            this.tabArchivo1.TabIndex = 0;
-            this.tabArchivo1.Text = "Nuevo";
-            this.tabArchivo1.UseVisualStyleBackColor = true;
-            // 
-            // LineNumberTextBox
-            // 
-            this.LineNumberTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.LineNumberTextBox.Cursor = System.Windows.Forms.Cursors.PanNE;
-            this.LineNumberTextBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.LineNumberTextBox.Location = new System.Drawing.Point(3, 3);
-            this.LineNumberTextBox.Name = "LineNumberTextBox";
-            this.LineNumberTextBox.ReadOnly = true;
-            this.LineNumberTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.LineNumberTextBox.Size = new System.Drawing.Size(42, 243);
-            this.LineNumberTextBox.TabIndex = 1;
-            this.LineNumberTextBox.Text = "";
-            // 
-            // rich
-            // 
-            this.rich.AutoWordSelection = true;
-            this.rich.Cursor = System.Windows.Forms.Cursors.PanNE;
-            this.rich.Location = new System.Drawing.Point(44, 0);
-            this.rich.Name = "rich";
-            this.rich.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rich.Size = new System.Drawing.Size(656, 243);
-            this.rich.TabIndex = 0;
-            this.rich.Text = "";
-            this.rich.TextChanged += new System.EventHandler(this.rich_TextChanged);
-            // 
             // tabControlSalida
             // 
             this.tabControlSalida.Controls.Add(this.tabSalida);
@@ -283,6 +234,7 @@
             // 
             // tabErrores
             // 
+            this.tabErrores.Controls.Add(this.richErrores);
             this.tabErrores.Location = new System.Drawing.Point(4, 22);
             this.tabErrores.Name = "tabErrores";
             this.tabErrores.Padding = new System.Windows.Forms.Padding(3);
@@ -331,6 +283,14 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1038, 281);
             this.tableLayoutPanel1.TabIndex = 10;
+            // 
+            // tabControlArchivos
+            // 
+            this.tabControlArchivos.Location = new System.Drawing.Point(334, 3);
+            this.tabControlArchivos.Name = "tabControlArchivos";
+            this.tabControlArchivos.SelectedIndex = 0;
+            this.tabControlArchivos.Size = new System.Drawing.Size(701, 275);
+            this.tabControlArchivos.TabIndex = 8;
             // 
             // tableLayoutPanel2
             // 
@@ -406,6 +366,14 @@
             this.listaArchivo.TransparentColor = System.Drawing.Color.Transparent;
             this.listaArchivo.Images.SetKeyName(0, "close.png");
             // 
+            // richErrores
+            // 
+            this.richErrores.Location = new System.Drawing.Point(0, 0);
+            this.richErrores.Name = "richErrores";
+            this.richErrores.Size = new System.Drawing.Size(1015, 174);
+            this.richErrores.TabIndex = 0;
+            this.richErrores.Text = "";
+            // 
             // formPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -433,9 +401,8 @@
             this.Load += new System.EventHandler(this.formPrincipal_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tabControlArchivos.ResumeLayout(false);
-            this.tabArchivo1.ResumeLayout(false);
             this.tabControlSalida.ResumeLayout(false);
+            this.tabErrores.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -456,8 +423,6 @@
         private System.Windows.Forms.Button botonCrearCarpeta;
         private System.Windows.Forms.Button botonCompilar;
         private System.Windows.Forms.TreeView vistaArbol;
-        private System.Windows.Forms.TabControl tabControlArchivos;
-        private System.Windows.Forms.TabPage tabArchivo1;
         private System.Windows.Forms.TabControl tabControlSalida;
         private System.Windows.Forms.TabPage tabSalida;
         private System.Windows.Forms.TabPage tabErrores;
@@ -465,7 +430,6 @@
         private System.Windows.Forms.TabPage tab3d;
         private System.Windows.Forms.TabPage tab3dOptimizacion;
         private System.Windows.Forms.ToolStripMenuItem menuDiagramaUML;
-        private System.Windows.Forms.RichTextBox rich;
         private System.Windows.Forms.ImageList listaImagenes;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -477,7 +441,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button botonCerrarArchivo;
         private System.Windows.Forms.ImageList listaArchivo;
-        private System.Windows.Forms.RichTextBox LineNumberTextBox;
+        private System.Windows.Forms.TabControl tabControlArchivos;
+        private System.Windows.Forms.RichTextBox richErrores;
     }
 }
 

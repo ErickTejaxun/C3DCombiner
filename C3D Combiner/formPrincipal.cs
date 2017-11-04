@@ -10,11 +10,11 @@ using System.Windows.Forms;
 using System.IO;
 using System.Collections;
 using System.Threading;
-
-using System.Text;
 using Irony.Parsing;
 using Irony.Ast;
-using Irony.Parsing;
+using ScintillaNET;
+
+
 
 namespace C3D_Combiner
 {
@@ -41,7 +41,13 @@ namespace C3D_Combiner
             LanguageData lenguaje = new LanguageData(gramatica);
             Parser p = new Parser(lenguaje);
             ParseTree arbol = p.Parse(cadenaEntrada);
-            return arbol.Root != null;
+            if (arbol.Root==null)
+            {
+                return false;
+
+            }
+            //return arbol.Root != null;
+            return true;
         }
 
         private void menuUML_Click(object sender, EventArgs e)
@@ -77,7 +83,7 @@ namespace C3D_Combiner
                 nombreNodo = nombreNodo.Trim();
                 clases.carpeta nuevaCarpeta = new clases.carpeta(nombreNodo);
                 paths_carpetas.Add(nuevaCarpeta);
-                Char delimiter = '\\';
+                char delimiter = '\\';
                 String[] substrings = nombreNodo.Split(delimiter);
                 String nombreCarpeta = "";
                 foreach (var substring in substrings)
@@ -108,18 +114,25 @@ namespace C3D_Combiner
             {
                 contenidoArchivo = richActual[0].Text;
             }
-
-            Analizador analizador = new Analizador();
-            //treeAnalizador analizador = new treeAnalizador();
-            //Gramatica grammatica = new Gramatica();
-            treeGramatica grammatica = new treeGramatica();
-            if (analizador.esCadenaValida(contenidoArchivo, grammatica))
+            if (contenidoArchivo.Length > 0)
             {
-                MessageBox.Show("Arbol de Analisis Sintactico Constuido !!!");
+                Console.WriteLine("Texto encontrado --- \n" + contenidoArchivo);
+                Analizador analizador = new Analizador();
+                treeGramatica grammatica = new treeGramatica();
+                string respuesta = analizador.esCadenaValida(contenidoArchivo, grammatica);
+                if (respuesta.Equals("1"))
+                {
+                    MessageBox.Show("Se ha construido el AST.");
+                }
+                else
+                {
+                    MessageBox.Show("Errores en la cadena de entrada");
+                    richErrores.Text = respuesta;
+                }
             }
             else
             {
-                MessageBox.Show("Errores en la cadena de entrada");
+                MessageBox.Show("Error", "Archivo vacío.");
             }
         }
         public void comenzarAnalisis()
@@ -141,7 +154,7 @@ namespace C3D_Combiner
         private void vistaArbol_AfterSelect(object sender, TreeViewEventArgs e)
         {
             String nombreArchivoSeleccionado = vistaArbol.SelectedNode.Text;
-            Char delimiter = '.';
+            char delimiter = '.';
             String[] substrings = nombreArchivoSeleccionado.Split(delimiter);
 
             if (substrings.Length > 1) // Verificamos si se ha seleccionado un archivo o una carpeta.
@@ -190,8 +203,29 @@ namespace C3D_Combiner
 
         public void AbrirArchivo(String nombre, String texto)
         {
+
+
+            //string title = "Documento " + (tabControlArchivos.TabCount).ToString();
+            String title = nombre;
+            ScintillaNET.Scintilla editor = new ScintillaNET.Scintilla();
+            editor.Margins[0].Width = 15;
+
+            editor.Margins[0].Type = MarginType.Number;
+            editor.Size = new System.Drawing.Size(500, 300);
+            editor.Dock = DockStyle.Fill;
+            editor.Text = texto;
             
+
+            editor.Styles[Style.LineNumber].Font = "Calibri";
+            editor.Name = "rich";
+            TabPage myTabPage = new TabPage(title);
+            myTabPage.Controls.Add(editor);
+            tabControlArchivos.TabPages.Add(myTabPage);
+
+            /* 
             TabPage tmpTabpage = new TabPage();
+            Scintilla editor = new Scintilla();
+            editor.Name = nombre;
             tmpTabpage.Text = nombre;
             RichTextBox tmpTextBox = new RichTextBox();
             tmpTextBox.Text = texto;
@@ -200,8 +234,11 @@ namespace C3D_Combiner
             tmpTextBox.Name = "rich";
             //tmpTextBox.TextChanged += new System.EventHandler(this.tmpTextBox);
             tmpTextBox.Size = new System.Drawing.Size(697, 253);
-            tmpTabpage.Controls.Add(tmpTextBox);
-            tabControlArchivos.Controls.Add(tmpTabpage);
+            // tmpTabpage.Controls.Add(tmpTextBox);
+            tmpTabpage.Controls.Add(editor);
+
+            
+            tabControlArchivos.Controls.Add(tmpTabpage);*/
         }
 
         private void formPrincipal_Load(object sender, EventArgs e)
@@ -215,48 +252,54 @@ namespace C3D_Combiner
 
         public void guardarArchivo()
         {
-            String nombreNuevoArchivo = ""; //Nombre del Archivo.
-            String contenidoArchivo = ""; // Contenido del archivo.
-            int panelSeleccionado = tabControlArchivos.SelectedIndex;
-            String nombreArchivo = tabControlArchivos.TabPages[panelSeleccionado].Text;
-            Control[] richActual = tabControlArchivos.TabPages[panelSeleccionado].Controls.Find("rich", false);
-            if (richActual.Length > 0)
+            if (tabControlArchivos.TabCount>0)
             {
-                contenidoArchivo = richActual[0].Text;
-            }
-            //nombreNuevoArchivo = tabControlArchivos
-            //Console.WriteLine("Posicion selected {0} con nombre : {1}",panelSeleccionado,nombreArchivo);
-            char delimitador = '.';
-            String[] partesArchivo = nombreArchivo.Split(delimitador);
-            if (partesArchivo.Length == 1) // Esto quiere decir que es un archivo nuevo.
-            {
-                SaveFileDialog dialogoDeUbicacion = new SaveFileDialog();
-                dialogoDeUbicacion.Filter = "Archivos Tree (.tree)|*.tree|Archivos OLC++ (.olc)|*.olc";
-                if (dialogoDeUbicacion.ShowDialog() == DialogResult.OK) // El usuario ha seleccionado la ubicación.
+                String nombreNuevoArchivo = ""; //Nombre del Archivo.
+                String contenidoArchivo = ""; // Contenido del archivo.
+                int panelSeleccionado = tabControlArchivos.SelectedIndex;
+                String nombreArchivo = tabControlArchivos.TabPages[panelSeleccionado].Text;
+                Control[] richActual = tabControlArchivos.TabPages[panelSeleccionado].Controls.Find("rich", false);
+                if (richActual.Length > 0)
                 {
-                    nombreNuevoArchivo = dialogoDeUbicacion.FileName; // Esto devuelve todo el path :v
-                    String pathNuevoArchivo = nombreNuevoArchivo;
-                    Console.WriteLine("Path {0} contendio : {1}", nombreNuevoArchivo,contenidoArchivo);                    
-                    System.IO.File.WriteAllText(nombreNuevoArchivo, contenidoArchivo); // Almacenamos el archivo
-
-                    //Obtenemos el nombre del archivo ya que en la variable pathNuevoArchivo tenemos la direccion total.
-                    delimitador = '\\';
-                    String[] partesPath = pathNuevoArchivo.Split(delimitador);
-                    foreach (String parte in partesPath)
+                    contenidoArchivo = richActual[0].Text;
+                }
+                //nombreNuevoArchivo = tabControlArchivos
+                //Console.WriteLine("Posicion selected {0} con nombre : {1}",panelSeleccionado,nombreArchivo);
+                char delimitador = '.';
+                String[] partesArchivo = nombreArchivo.Split(delimitador);
+                if (partesArchivo.Length == 1) // Esto quiere decir que es un archivo nuevo.
+                {
+                    SaveFileDialog dialogoDeUbicacion = new SaveFileDialog();
+                    dialogoDeUbicacion.Filter = "Archivos Tree (.tree)|*.tree|Archivos OLC++ (.olc)|*.olc";
+                    if (dialogoDeUbicacion.ShowDialog() == DialogResult.OK) // El usuario ha seleccionado la ubicación.
                     {
-                        nombreNuevoArchivo = parte;
+                        nombreNuevoArchivo = dialogoDeUbicacion.FileName; // Esto devuelve todo el path :v
+                        String pathNuevoArchivo = nombreNuevoArchivo;
+                        Console.WriteLine("Path {0} contendio : {1}", nombreNuevoArchivo, contenidoArchivo);
+                        System.IO.File.WriteAllText(nombreNuevoArchivo, contenidoArchivo); // Almacenamos el archivo
+
+                        //Obtenemos el nombre del archivo ya que en la variable pathNuevoArchivo tenemos la direccion total.
+                        delimitador = '\\';
+                        String[] partesPath = pathNuevoArchivo.Split(delimitador);
+                        foreach (String parte in partesPath)
+                        {
+                            nombreNuevoArchivo = parte;
+                        }
+
+                        cambiarNombrePanel(nombreNuevoArchivo); // Cambiamos el título al panel
+                        dibujarNodo(pathNuevoArchivo); // Dibujamos el nodo.
                     }
 
-                    cambiarNombrePanel(nombreNuevoArchivo); // Cambiamos el título al panel
-                    dibujarNodo(pathNuevoArchivo); // Dibujamos el nodo.
+                }
+                else // Esto quiere decir que es un archivo nuevo.
+                {
+                    pathArchivoActual += nombreArchivo;
+                    //Tenemos que encontrar el path del archivo
+                    System.IO.File.WriteAllText(pathArchivoActual, contenidoArchivo); // Almacenamos el archivo
                 }
 
-            }
-            else // Esto quiere decir que es un archivo nuevo.
-            {
-                pathArchivoActual += nombreArchivo;
-                //Tenemos que encontrar el path del archivo
-                System.IO.File.WriteAllText(pathArchivoActual, contenidoArchivo); // Almacenamos el archivo
+
+
             }
         }
         public void cambiarNombrePanel(String texto)
@@ -275,7 +318,7 @@ namespace C3D_Combiner
                 string nombreNodo = navegadorArchivos.FileName;
                 nombreNodo = nombreNodo.Trim();
                 //clases.carpeta nuevaCarpeta = new clases.carpeta(nombreNodo);                
-                Char delimiter = '\\';
+                char delimiter = '\\';
                 String[] substrings = nombreNodo.Split(delimiter);
                 String nombreArchivo = "";
                 foreach (var substring in substrings)
@@ -399,7 +442,7 @@ namespace C3D_Combiner
             string nombreNodo = path;
             nombreNodo = nombreNodo.Trim();
             //clases.carpeta nuevaCarpeta = new clases.carpeta(nombreNodo);                
-            Char delimiter = '\\';
+            char delimiter = '\\';
             String[] substrings = nombreNodo.Split(delimiter);
             String nombreArchivo = "";
             foreach (var substring in substrings)
@@ -531,10 +574,10 @@ namespace C3D_Combiner
 
         private void rich_TextChanged(object sender, EventArgs e)
         {
-            char delimitador = '\n';
+            /*char delimitador = '\n';
             int lineas = rich.Text.Split(delimitador).Length;
             //int indice = rich
-            Console.WriteLine("Numero de Lineas {0}.",lineas);
+            Console.WriteLine("Numero de Lineas {0}.",lineas);*/
         }
 
 

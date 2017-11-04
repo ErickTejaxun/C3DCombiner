@@ -8,18 +8,41 @@ namespace C3D_Combiner
 {
     public class Analizador
     {
-        public bool esCadenaValida(string cadenaEntrada, Grammar gramatica)
+        public string esCadenaValida(string cadenaEntrada, Grammar gramatica)
         {
             LanguageData lenguaje = new LanguageData(gramatica);
             Parser p = new Parser(lenguaje);
             ParseTree arbol = p.Parse(cadenaEntrada);
-            ParseTreeNode raiz = arbol.Root;            
+            ParseTreeNode raiz = arbol.Root;  
+                      
             if (raiz == null)
             {
-                return false;
+                return getErrores(arbol);
             }
-            generarImagen(raiz);
-            return true;
+            else
+            {
+
+                generarImagen(raiz);
+
+            }            
+            return "1";
+        }
+
+        public string getErrores(ParseTree arbol)
+        {
+            String errores = "";
+            String cabecera = "";
+            if (arbol.HasErrors())
+            {                
+                int elementos = arbol.ParserMessages.Count;
+                for (int x = 0; x < elementos; x++)
+                {
+                    cabecera += "Error en " + arbol.ParserMessages[x].Location + ";" + arbol.ParserMessages[x].Message + "\r\n";
+                    errores += arbol.ParserMessages[x].Location.Line + ";" + arbol.ParserMessages[x].Location.Column + ";" + arbol.ParserMessages[x].Message + "@";
+                }
+            }
+
+            return cabecera + "\n" + errores;
         }
 
 
