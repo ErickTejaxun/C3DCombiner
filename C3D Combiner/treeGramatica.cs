@@ -78,7 +78,8 @@ namespace C3D_Combiner
             StringLiteral Cadena = new StringLiteral("Cadena", "\"");
 
             RegexBasedTerminal ruta = new RegexBasedTerminal("ruta", "http://([a-zA-Z0-9]|#(n|f|t)|#|\\[|\\|.|_])+");
-
+            //StringLiteral ruta = new StringLiteral("ruta", "http:");
+            //CommentTerminal ruta = new CommentTerminal("ruta", "http",",");
 
             //Relaciones
             RegexBasedTerminal Igual = new RegexBasedTerminal("igual", "==");

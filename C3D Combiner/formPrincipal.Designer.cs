@@ -43,7 +43,6 @@
             this.botonAbrir = new System.Windows.Forms.Button();
             this.botonCrearCarpeta = new System.Windows.Forms.Button();
             this.botonCompilar = new System.Windows.Forms.Button();
-            this.vistaArbol = new System.Windows.Forms.TreeView();
             this.listaImagenes = new System.Windows.Forms.ImageList(this.components);
             this.tabControlSalida = new System.Windows.Forms.TabControl();
             this.tabSalida = new System.Windows.Forms.TabPage();
@@ -51,8 +50,6 @@
             this.tabOptimizacion = new System.Windows.Forms.TabPage();
             this.tab3d = new System.Windows.Forms.TabPage();
             this.tab3dOptimizacion = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tabControlArchivos = new System.Windows.Forms.TabControl();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -62,11 +59,20 @@
             this.botonCerrarArchivo = new System.Windows.Forms.Button();
             this.listaArchivo = new System.Windows.Forms.ImageList(this.components);
             this.richErrores = new System.Windows.Forms.RichTextBox();
+            this.tabControlArchivos = new System.Windows.Forms.TabControl();
+            this.vistaArbol = new System.Windows.Forms.TreeView();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.labelFila = new System.Windows.Forms.Label();
+            this.labelColumna = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tabControlSalida.SuspendLayout();
             this.tabErrores.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -78,9 +84,10 @@
             this.menuReportes});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1063, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1123, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // menuUML
             // 
@@ -183,18 +190,6 @@
             this.botonCompilar.UseVisualStyleBackColor = true;
             this.botonCompilar.Click += new System.EventHandler(this.botonCompilar_Click);
             // 
-            // vistaArbol
-            // 
-            this.vistaArbol.ImageIndex = 0;
-            this.vistaArbol.ImageList = this.listaImagenes;
-            this.vistaArbol.Location = new System.Drawing.Point(3, 3);
-            this.vistaArbol.Name = "vistaArbol";
-            this.vistaArbol.SelectedImageIndex = 6;
-            this.vistaArbol.Size = new System.Drawing.Size(324, 275);
-            this.vistaArbol.StateImageList = this.listaImagenes;
-            this.vistaArbol.TabIndex = 6;
-            this.vistaArbol.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.vistaArbol_AfterSelect);
-            // 
             // listaImagenes
             // 
             this.listaImagenes.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("listaImagenes.ImageStream")));
@@ -218,7 +213,7 @@
             this.tabControlSalida.Location = new System.Drawing.Point(3, 3);
             this.tabControlSalida.Name = "tabControlSalida";
             this.tabControlSalida.SelectedIndex = 0;
-            this.tabControlSalida.Size = new System.Drawing.Size(1026, 203);
+            this.tabControlSalida.Size = new System.Drawing.Size(1093, 223);
             this.tabControlSalida.TabIndex = 9;
             // 
             // tabSalida
@@ -227,7 +222,7 @@
             this.tabSalida.Location = new System.Drawing.Point(4, 22);
             this.tabSalida.Name = "tabSalida";
             this.tabSalida.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSalida.Size = new System.Drawing.Size(1018, 177);
+            this.tabSalida.Size = new System.Drawing.Size(1085, 197);
             this.tabSalida.TabIndex = 0;
             this.tabSalida.Text = "Consola de Salida";
             this.tabSalida.UseVisualStyleBackColor = true;
@@ -238,7 +233,7 @@
             this.tabErrores.Location = new System.Drawing.Point(4, 22);
             this.tabErrores.Name = "tabErrores";
             this.tabErrores.Padding = new System.Windows.Forms.Padding(3);
-            this.tabErrores.Size = new System.Drawing.Size(1018, 177);
+            this.tabErrores.Size = new System.Drawing.Size(1047, 177);
             this.tabErrores.TabIndex = 1;
             this.tabErrores.Text = "Errores";
             this.tabErrores.UseVisualStyleBackColor = true;
@@ -247,7 +242,7 @@
             // 
             this.tabOptimizacion.Location = new System.Drawing.Point(4, 22);
             this.tabOptimizacion.Name = "tabOptimizacion";
-            this.tabOptimizacion.Size = new System.Drawing.Size(1018, 177);
+            this.tabOptimizacion.Size = new System.Drawing.Size(1047, 177);
             this.tabOptimizacion.TabIndex = 2;
             this.tabOptimizacion.Text = "Salida proceso de optimización";
             this.tabOptimizacion.UseVisualStyleBackColor = true;
@@ -256,7 +251,7 @@
             // 
             this.tab3d.Location = new System.Drawing.Point(4, 22);
             this.tab3d.Name = "tab3d";
-            this.tab3d.Size = new System.Drawing.Size(1018, 177);
+            this.tab3d.Size = new System.Drawing.Size(1047, 177);
             this.tab3d.TabIndex = 3;
             this.tab3d.Text = "Código 3D";
             this.tab3d.UseVisualStyleBackColor = true;
@@ -265,43 +260,21 @@
             // 
             this.tab3dOptimizacion.Location = new System.Drawing.Point(4, 22);
             this.tab3dOptimizacion.Name = "tab3dOptimizacion";
-            this.tab3dOptimizacion.Size = new System.Drawing.Size(1018, 177);
+            this.tab3dOptimizacion.Size = new System.Drawing.Size(1047, 177);
             this.tab3dOptimizacion.TabIndex = 4;
             this.tab3dOptimizacion.Text = "Código 3D Optimizado";
             this.tab3dOptimizacion.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.9403F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.0597F));
-            this.tableLayoutPanel1.Controls.Add(this.vistaArbol, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tabControlArchivos, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 107);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1038, 281);
-            this.tableLayoutPanel1.TabIndex = 10;
-            // 
-            // tabControlArchivos
-            // 
-            this.tabControlArchivos.Location = new System.Drawing.Point(334, 3);
-            this.tabControlArchivos.Name = "tabControlArchivos";
-            this.tabControlArchivos.SelectedIndex = 0;
-            this.tabControlArchivos.Size = new System.Drawing.Size(701, 275);
-            this.tabControlArchivos.TabIndex = 8;
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.tabControlSalida, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(15, 391);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(15, 436);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1032, 209);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1108, 229);
             this.tableLayoutPanel2.TabIndex = 11;
             // 
             // label1
@@ -353,7 +326,7 @@
             // 
             this.botonCerrarArchivo.ImageIndex = 0;
             this.botonCerrarArchivo.ImageList = this.listaArchivo;
-            this.botonCerrarArchivo.Location = new System.Drawing.Point(1006, 78);
+            this.botonCerrarArchivo.Location = new System.Drawing.Point(1076, 78);
             this.botonCerrarArchivo.Name = "botonCerrarArchivo";
             this.botonCerrarArchivo.Size = new System.Drawing.Size(41, 26);
             this.botonCerrarArchivo.TabIndex = 17;
@@ -370,16 +343,101 @@
             // 
             this.richErrores.Location = new System.Drawing.Point(0, 0);
             this.richErrores.Name = "richErrores";
-            this.richErrores.Size = new System.Drawing.Size(1015, 174);
+            this.richErrores.Size = new System.Drawing.Size(1044, 174);
             this.richErrores.TabIndex = 0;
             this.richErrores.Text = "";
+            // 
+            // tabControlArchivos
+            // 
+            this.tabControlArchivos.Location = new System.Drawing.Point(357, 3);
+            this.tabControlArchivos.Name = "tabControlArchivos";
+            this.tabControlArchivos.SelectedIndex = 0;
+            this.tabControlArchivos.Size = new System.Drawing.Size(748, 286);
+            this.tabControlArchivos.TabIndex = 8;
+            this.tabControlArchivos.SelectedIndexChanged += new System.EventHandler(this.tabControlArchivos_SelectedIndexChanged);
+            // 
+            // vistaArbol
+            // 
+            this.vistaArbol.ImageIndex = 0;
+            this.vistaArbol.ImageList = this.listaImagenes;
+            this.vistaArbol.Location = new System.Drawing.Point(3, 3);
+            this.vistaArbol.Name = "vistaArbol";
+            this.vistaArbol.SelectedImageIndex = 6;
+            this.vistaArbol.Size = new System.Drawing.Size(346, 286);
+            this.vistaArbol.StateImageList = this.listaImagenes;
+            this.vistaArbol.TabIndex = 6;
+            this.vistaArbol.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.vistaArbol_AfterSelect);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.9403F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.0597F));
+            this.tableLayoutPanel1.Controls.Add(this.vistaArbol, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tabControlArchivos, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 110);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1111, 320);
+            this.tableLayoutPanel1.TabIndex = 10;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.labelColumna);
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.labelFila);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Location = new System.Drawing.Point(357, 295);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(748, 22);
+            this.panel1.TabIndex = 9;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(87, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(23, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Fila";
+            // 
+            // labelFila
+            // 
+            this.labelFila.AutoSize = true;
+            this.labelFila.Location = new System.Drawing.Point(132, 0);
+            this.labelFila.Name = "labelFila";
+            this.labelFila.Size = new System.Drawing.Size(13, 13);
+            this.labelFila.TabIndex = 1;
+            this.labelFila.Text = "0";
+            // 
+            // labelColumna
+            // 
+            this.labelColumna.AutoSize = true;
+            this.labelColumna.Location = new System.Drawing.Point(267, 0);
+            this.labelColumna.Name = "labelColumna";
+            this.labelColumna.Size = new System.Drawing.Size(13, 13);
+            this.labelColumna.TabIndex = 3;
+            this.labelColumna.Text = "0";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(197, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(48, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Columna";
             // 
             // formPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1063, 617);
+            this.ClientSize = new System.Drawing.Size(1123, 677);
             this.Controls.Add(this.botonCerrarArchivo);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -403,8 +461,10 @@
             this.menuStrip1.PerformLayout();
             this.tabControlSalida.ResumeLayout(false);
             this.tabErrores.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -422,7 +482,6 @@
         private System.Windows.Forms.Button botonAbrir;
         private System.Windows.Forms.Button botonCrearCarpeta;
         private System.Windows.Forms.Button botonCompilar;
-        private System.Windows.Forms.TreeView vistaArbol;
         private System.Windows.Forms.TabControl tabControlSalida;
         private System.Windows.Forms.TabPage tabSalida;
         private System.Windows.Forms.TabPage tabErrores;
@@ -431,7 +490,6 @@
         private System.Windows.Forms.TabPage tab3dOptimizacion;
         private System.Windows.Forms.ToolStripMenuItem menuDiagramaUML;
         private System.Windows.Forms.ImageList listaImagenes;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ImageList lista2;
         private System.Windows.Forms.Label label1;
@@ -441,8 +499,15 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button botonCerrarArchivo;
         private System.Windows.Forms.ImageList listaArchivo;
-        private System.Windows.Forms.TabControl tabControlArchivos;
         private System.Windows.Forms.RichTextBox richErrores;
+        private System.Windows.Forms.TabControl tabControlArchivos;
+        private System.Windows.Forms.TreeView vistaArbol;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label labelFila;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label labelColumna;
+        private System.Windows.Forms.Label label8;
     }
 }
 

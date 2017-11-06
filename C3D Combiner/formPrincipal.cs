@@ -16,6 +16,7 @@ using ScintillaNET;
 
 
 
+
 namespace C3D_Combiner
 {
     public partial class formPrincipal : Form
@@ -106,33 +107,38 @@ namespace C3D_Combiner
 
         public void lanzarAnalisis()
         {
-            String contenidoArchivo = ""; // Contenido del archivo.
-            int panelSeleccionado = tabControlArchivos.SelectedIndex;
-            String nombreArchivo = tabControlArchivos.TabPages[panelSeleccionado].Text;
-            Control[] richActual = tabControlArchivos.TabPages[panelSeleccionado].Controls.Find("rich", false);
-            if (richActual.Length > 0)
+            if (tabControlArchivos.TabCount > 0)
             {
-                contenidoArchivo = richActual[0].Text;
-            }
-            if (contenidoArchivo.Length > 0)
-            {
-                Console.WriteLine("Texto encontrado --- \n" + contenidoArchivo);
-                Analizador analizador = new Analizador();
-                treeGramatica grammatica = new treeGramatica();
-                string respuesta = analizador.esCadenaValida(contenidoArchivo, grammatica);
-                if (respuesta.Equals("1"))
+                //Limpiamos lo de errores.
+                this.richErrores.Text = "";
+                String contenidoArchivo = ""; // Contenido del archivo.
+                int panelSeleccionado = tabControlArchivos.SelectedIndex;
+                String nombreArchivo = tabControlArchivos.TabPages[panelSeleccionado].Text;
+                Control[] richActual = tabControlArchivos.TabPages[panelSeleccionado].Controls.Find("rich", false);
+                if (richActual.Length > 0)
                 {
-                    MessageBox.Show("Se ha construido el AST.");
+                    contenidoArchivo = richActual[0].Text;
+                }
+                if (contenidoArchivo.Length > 0)
+                {
+                    Console.WriteLine("Texto encontrado --- \n" + contenidoArchivo);
+                    Analizador analizador = new Analizador();
+                    treeGramatica grammatica = new treeGramatica();
+                    string respuesta = analizador.esCadenaValida(contenidoArchivo, grammatica);
+                    if (respuesta.Equals("1"))
+                    {
+                        MessageBox.Show("Se ha construido el AST.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Errores en la cadena de entrada");
+                        richErrores.Text = respuesta;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Errores en la cadena de entrada");
-                    richErrores.Text = respuesta;
+                    MessageBox.Show("Error", "Archivo vacío.");
                 }
-            }
-            else
-            {
-                MessageBox.Show("Error", "Archivo vacío.");
             }
         }
         public void comenzarAnalisis()
@@ -201,23 +207,36 @@ namespace C3D_Combiner
 
         }
 
+
+        /*private void scintilla_TextChanged(object sender, EventArgs e)
+        {
+            // Did the number of characters in the line number display change?
+            // i.e. nnn VS nn, or nnnn VS nn, etc...
+            var maxLineNumberCharLength = scintilla.Lines.Count.ToString().Length;
+            if (maxLineNumberCharLength == this.maxLineNumberCharLength)
+                return;
+
+            // Calculate the width required to display the last line number
+            // and include some padding for good measure.
+            const int padding = 2;
+            scintilla.Margins[0].Width = scintilla.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + padding;
+            this.maxLineNumberCharLength = maxLineNumberCharLength;
+        }*/
+
         public void AbrirArchivo(String nombre, String texto)
         {
 
 
             //string title = "Documento " + (tabControlArchivos.TabCount).ToString();
             String title = nombre;
-            ScintillaNET.Scintilla editor = new ScintillaNET.Scintilla();
+            ScintillaNET.Scintilla editor = new ScintillaNET.Scintilla();           
             editor.Margins[0].Width = 15;
-
             editor.Margins[0].Type = MarginType.Number;
             editor.Size = new System.Drawing.Size(500, 300);
             editor.Dock = DockStyle.Fill;
             editor.Text = texto;
-            
-
             editor.Styles[Style.LineNumber].Font = "Calibri";
-            editor.Name = "rich";
+            editor.Name = "rich";            
             TabPage myTabPage = new TabPage(title);
             myTabPage.Controls.Add(editor);
             tabControlArchivos.TabPages.Add(myTabPage);
@@ -241,8 +260,53 @@ namespace C3D_Combiner
             tabControlArchivos.Controls.Add(tmpTabpage);*/
         }
 
+        private void formPrincipal_FormClosing(Object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+
+
         private void formPrincipal_Load(object sender, EventArgs e)
         {
+            Console.WriteLine("Iniciando hilo.");
+            //iniciarHilos();
+           // Thread.Sleep(200);
+        }
+
+        public void iniciarHilos()
+        {
+            Thread hiloPosicion = new Thread(new ThreadStart(getPosicionActual));
+            hiloPosicion.Start();
+            //getPosicionActual();
+        }
+
+        public void getPosicionActual()
+        {
+            while (true)
+            {
+                Console.WriteLine("Iniciando hilo. " + tabControlArchivos.TabCount);
+                if (tabControlArchivos.TabCount > 0)
+                {
+                    try
+                    {
+                        int panelSeleccionado = tabControlArchivos.SelectedIndex;
+                        String nombreArchivo = tabControlArchivos.TabPages[panelSeleccionado].Text;
+                        Control[] richActual = tabControlArchivos.TabPages[panelSeleccionado].Controls.Find("rich", false);
+                        if (richActual.Length > 0)
+                        {
+                            //contenidoArchivo = richActual[0].Text;
+                            ScintillaNET.Scintilla editor = (ScintillaNET.Scintilla)richActual[0];
+                            labelFila.Text = editor.CurrentLine.ToString();
+                            labelColumna.Text = editor.CurrentPosition.ToString();
+                            Console.WriteLine("----------------------" + labelFila.Text + labelColumna.Text);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);                        
+                    }
+                }
+            }
         }
 
         private void botonGuardarArchivo_Click(object sender, EventArgs e)
@@ -574,17 +638,33 @@ namespace C3D_Combiner
 
         private void rich_TextChanged(object sender, EventArgs e)
         {
-            /*char delimitador = '\n';
-            int lineas = rich.Text.Split(delimitador).Length;
-            //int indice = rich
-            Console.WriteLine("Numero de Lineas {0}.",lineas);*/
+            int panelSeleccionado = tabControlArchivos.SelectedIndex;
+            String nombreArchivo = tabControlArchivos.TabPages[panelSeleccionado].Text;
+            Control[] richActual = tabControlArchivos.TabPages[panelSeleccionado].Controls.Find("rich", false);
+            if (richActual.Length > 0)
+            {
+                //contenidoArchivo = richActual[0].Text;
+                ScintillaNET.Scintilla editor = (ScintillaNET.Scintilla)richActual[0];
+                labelFila.Text = editor.CurrentLine.ToString();
+                labelColumna.Text = editor.CurrentPosition.ToString();
+                Console.WriteLine("----------------------" + labelFila.Text + labelColumna.Text);
+            }
         }
 
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
 
+        }
 
-        //#######################################################################################
+        private void tabControlArchivos_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+        }
 
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }  
     }
 
 
