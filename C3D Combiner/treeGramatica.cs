@@ -246,10 +246,10 @@ namespace C3D_Combiner
                             | ID + Dimensiones + "=>" + Operacion + Eos
                             | ID + "." + ID + "=>" + Operacion + Eos;
 
-            IF.Rule = Rsi + Condicion + DosPuntos + Eos + Indent + Sentencias + Dedent + SinoS + Sino//7
-                      | Rsi + Condicion + DosPuntos + Eos + Indent + Sentencias + Dedent + Sino//6
-                      | Rsi + Condicion + DosPuntos + Eos + Indent + Sentencias + Dedent + SinoS//6
-                      | Rsi + Condicion + DosPuntos + Eos + Indent + Sentencias + Dedent;//5
+            IF.Rule = Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + SinoS + Sino//7
+                      | Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + Sino//6
+                      | Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + SinoS//6
+                      | Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//5
 
             SinoS.Rule = SinoS + Rsinosi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//7
                          | Rsinosi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//6
@@ -287,12 +287,14 @@ namespace C3D_Combiner
 
             Salir.Rule = Rsalir + Eos;
 
-            Condicion.Rule = Logica;
+            //Condicion.Rule = Logica;
+            Condicion.Rule = MakePlusRule(Condicion, Logica);
 
             Logica.Rule = "{" + Logica + Logica + Or + "}"
                         | "{" + Logica + Logica + and + "}"
                         | "{" + Logica + Logica + XOR + "}"
-                        | "{" + not + Logica + "}"
+                       // | "{" + Logica + Logica + not + "}"
+                        | "{" +  Logica + not +"}"
                         | Relacional;
 
             Relacional.Rule = "[" + Relacional + Relacional + Igual + "]"
