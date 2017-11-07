@@ -230,7 +230,7 @@ namespace C3D_Combiner
             //string title = "Documento " + (tabControlArchivos.TabCount).ToString();
             String title = nombre;
             ScintillaNET.Scintilla editor = new ScintillaNET.Scintilla();           
-            editor.Margins[0].Width = 15;
+            editor.Margins[0].Width = 30;
             editor.Margins[0].Type = MarginType.Number;
             editor.Size = new System.Drawing.Size(500, 300);
             editor.Dock = DockStyle.Fill;

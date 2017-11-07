@@ -287,8 +287,8 @@ namespace C3D_Combiner
 
             Salir.Rule = Rsalir + Eos;
 
-            //Condicion.Rule = Logica;
-            Condicion.Rule = MakePlusRule(Condicion, Logica);
+            Condicion.Rule = Logica;
+            //Condicion.Rule = MakePlusRule(Condicion, Logica);
 
             Logica.Rule = "{" + Logica + Logica + Or + "}"
                         | "{" + Logica + Logica + and + "}"
