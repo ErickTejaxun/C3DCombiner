@@ -433,7 +433,7 @@ namespace C3D_Combiner
             Operaciones.Rule = Operaciones + "," + Operacion
                               | Operacion;
 
-            Elegir.Rule = Relegir + "(" + Operacion + ")" + DosPuntos + Eos + Casos;
+            Elegir.Rule = Relegir + "(" + Operacion + ")" + DosPuntos + Eos + Indent + Casos + Dedent;
 
             Casos.Rule = Caso + Casos
                         | Caso;
