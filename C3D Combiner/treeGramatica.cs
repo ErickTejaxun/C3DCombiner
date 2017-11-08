@@ -27,6 +27,7 @@ namespace C3D_Combiner
             //RegexBasedTerminal sobreescribir = new RegexBasedTerminal("sobreescribir", "\\/\\*\\*Sobreescribir\\*\\*\\/");
             //var sobreescribir = ToTerm("\\/\\*\\*Sobreescribir\\*\\*\\/");
             var sobreescribir = ToTerm("/**Sobreescribir**/");
+            var constructor = ToTerm("__constructor");
             RegexBasedTerminal metodo = new RegexBasedTerminal("metodo", "metodo");
             RegexBasedTerminal funcion = new RegexBasedTerminal("funcion", "funcion");
             RegexBasedTerminal clase = new RegexBasedTerminal("clase", "clase");
@@ -175,6 +176,7 @@ namespace C3D_Combiner
                     LLAMAR_SUPER = new NonTerminal("LLAMAR_SUPER"),
                     LISTA_PARAMETROS = new NonTerminal("LISTA_PARAMETROS"),
                     PRAGMA_SOBREESCRIBIR = new NonTerminal("PRAGMA_SOBREESCRIBIR"),
+                    CLASE = new NonTerminal("CLASE"),
                     CAD = new NonTerminal("CAD");
 
             S.Rule = Cabeza + LISTACUERPO
@@ -222,6 +224,8 @@ namespace C3D_Combiner
 
             Componente.Rule = PRAGMA_SOBREESCRIBIR+ ID + "[]:" + Eos + Indent + Sentencias + Dedent//3
                             | PRAGMA_SOBREESCRIBIR + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//5
+                            | PRAGMA_SOBREESCRIBIR + constructor + "[]:" + Eos + Indent + Sentencias + Dedent//3
+                            | PRAGMA_SOBREESCRIBIR + constructor + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//5
                             | PRAGMA_SOBREESCRIBIR + Tipo + ID + "[]:" + Eos + Indent + Sentencias + Dedent//4
                             | PRAGMA_SOBREESCRIBIR + Tipo + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//6
                             | PRAGMA_SOBREESCRIBIR + Visibilidad + ID + "[]:" + Eos + Indent + Sentencias + Dedent//4
@@ -361,12 +365,17 @@ namespace C3D_Combiner
 
             Dimension.Rule = "[" + Operacion + "]";
 
-            Tipo.Rule = REntero
+            CLASE.Rule = ID;
+
+            Tipo.Rule = 
+                        CLASE
+                      | REntero
                       | Rboolean
                       | RCadena
                       | RDoble
                       | RCaracter
                       | Rvoid;
+                      //| ID;
 
             Valor.Rule = Entero
                  | Verdadero
