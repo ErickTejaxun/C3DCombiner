@@ -38,7 +38,9 @@ namespace C3D_Combiner
             var Rsi = ToTerm("SI");
             var nuevo = ToTerm("nuevo");
             RegexBasedTerminal Rsino = new RegexBasedTerminal("Rsino", "SI_NO ");
+            //var Rsino = ToTerm("SI_NO");
             RegexBasedTerminal Rsinosi = new RegexBasedTerminal("Rsinosi", "SI_NO_SI ");
+            //var Rsino = ToTerm("SI_NO_SI");
             RegexBasedTerminal Rsalir = new RegexBasedTerminal("Rsalir", "salir ");
             RegexBasedTerminal Relegir = new RegexBasedTerminal("Relejir", "ELEGIR CASO ");
             RegexBasedTerminal Rcontinuar = new RegexBasedTerminal("Rcontinuar", "CONTINUAR ");
@@ -179,6 +181,7 @@ namespace C3D_Combiner
                     PRAGMA_SOBREESCRIBIR = new NonTerminal("PRAGMA_SOBREESCRIBIR"),
                     OBJETO = new NonTerminal("OBJETO"),
                     PARAMETROS_INSTANCIA = new NonTerminal("PARAMETROS_INSTANCIA"),
+                    AUMENTO_DECREMENTO = new NonTerminal("AUMENTO_DECREMENTO"),
                     CAD = new NonTerminal("CAD");
 
             S.Rule = Cabeza + LISTACUERPO
@@ -262,8 +265,14 @@ namespace C3D_Combiner
                            | intASt
                            | douAINt
                            | Salir
+                           | AUMENTO_DECREMENTO
                            //| Operacion
                            ;
+
+            //Poder hacer id++ o id -- en cuarquier lado prros :v .
+
+            AUMENTO_DECREMENTO.Rule = ID + aumentar + Eos
+                                     |ID + disminuir  + Eos;
 
             Declaracion.Rule = Tipo + Nombres + Eos
                             | Tipo + Nombres + "=>" + Operacion + Eos
