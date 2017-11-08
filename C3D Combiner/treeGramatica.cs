@@ -22,7 +22,8 @@ namespace C3D_Combiner
 
             //reservadas
             RegexBasedTerminal importar = new RegexBasedTerminal("importar", "importar ");
-            RegexBasedTerminal super = new RegexBasedTerminal("super", "super");
+            //RegexBasedTerminal super = new RegexBasedTerminal("super", "super");
+            var super = ToTerm("super");
             RegexBasedTerminal sobreescribir = new RegexBasedTerminal("sobreescribir", "\\/\\*\\*Sobreescribir\\*\\*\\/");
             RegexBasedTerminal metodo = new RegexBasedTerminal("metodo", "metodo");
             RegexBasedTerminal funcion = new RegexBasedTerminal("funcion", "funcion");
@@ -30,7 +31,8 @@ namespace C3D_Combiner
             RegexBasedTerminal retornar = new RegexBasedTerminal("retornar", "retornar ");
             RegexBasedTerminal imprimir = new RegexBasedTerminal("imprimir", "imprimir\\[");
             RegexBasedTerminal Rself = new RegexBasedTerminal("Rself", "self");
-            RegexBasedTerminal Rsi = new RegexBasedTerminal("Rsi", "SI ");
+            //RegexBasedTerminal Rsi = new RegexBasedTerminal("Rsi", "SI ");
+            var Rsi = ToTerm("SI");
             RegexBasedTerminal Rsino = new RegexBasedTerminal("Rsino", "SI_NO ");
             RegexBasedTerminal Rsinosi = new RegexBasedTerminal("Rsinosi", "SI_NO_SI ");
             RegexBasedTerminal Rsalir = new RegexBasedTerminal("Rsalir", "salir ");
@@ -90,10 +92,14 @@ namespace C3D_Combiner
             RegexBasedTerminal MayorQue = new RegexBasedTerminal("mayor_que", ">=");
 
             //Logicos
-            RegexBasedTerminal Or = new RegexBasedTerminal("or", "\\|\\|");
-            RegexBasedTerminal XOR = new RegexBasedTerminal("Xor", "\\?\\?");
-            RegexBasedTerminal and = new RegexBasedTerminal("and", "&&");
-            RegexBasedTerminal not = new RegexBasedTerminal("not", "NOT");
+            //RegexBasedTerminal Or = new RegexBasedTerminal("or", "or");
+            var Or = ToTerm("or");
+            //RegexBasedTerminal XOR = new RegexBasedTerminal("Xor", "xor");
+            var XOR = ToTerm("xor");
+            //RegexBasedTerminal and = new RegexBasedTerminal("and", "and");
+            var and = ToTerm("and");
+            //RegexBasedTerminal not = new RegexBasedTerminal("not", "NOT");
+            var not = ToTerm("not");
 
             //Artimeticos
             RegexBasedTerminal suma = new RegexBasedTerminal("suma", "\\+");
@@ -164,6 +170,8 @@ namespace C3D_Combiner
                     Repetir = new NonTerminal("Repetir"),
                     SinoS = new NonTerminal("SinoS"),
                     LISTACUERPO = new NonTerminal("LISTACUERPO"),
+                    LLAMAR_SUPER = new NonTerminal("LLAMAR_SUPER"),
+                    LISTA_PARAMETROS = new NonTerminal("LISTA_PARAMETROS"),
                     CAD = new NonTerminal("CAD");
 
             S.Rule = Cabeza + LISTACUERPO
@@ -181,13 +189,13 @@ namespace C3D_Combiner
             //LISTACUERPO.Rule = MakePlusRule(LISTACUERPO, Cuerpo);
             LISTACUERPO.Rule = Indent + Cuerpo + Dedent;
 
-            Cuerpo.Rule = MakeStarRule(LISTACUERPO, Cuerpo );
-                                
+            Cuerpo.Rule = MakeStarRule(LISTACUERPO, Cuerpo);
 
-            Cuerpo.Rule =  clase + ID + "[" + ID + "]:" + Eos + Indent + Partes + Dedent //6
+
+            Cuerpo.Rule = clase + ID + "[" + ID + "]:" + Eos + Indent + Partes + Dedent //6
                           | clase + ID + "[]:" + Eos + Indent + Partes + Dedent  //4
                           | Visibilidad + clase + ID + "[]:" + Eos + Indent + Partes + Dedent //5
-                          | Visibilidad + clase + ID + "[" + ID + "]:" + Eos + Indent + Partes + Dedent ;//7
+                          | Visibilidad + clase + ID + "[" + ID + "]:" + Eos + Indent + Partes + Dedent;//7
 
             Partes.Rule = Globales + Componentes
                         | Componentes;
@@ -219,9 +227,10 @@ namespace C3D_Combiner
                             | Sentencia;
 
             Sentencia.Rule = Retorno
+                           | Funciones
                            | Asignacion
                            | Declaracion
-                           | Funciones
+                           //| LLAMAR_SUPER                           
                            | IF
                            | For
                            | While
@@ -236,12 +245,17 @@ namespace C3D_Combiner
                            | douASt
                            | intASt
                            | douAINt
-                           | Salir;
+                           | Salir
+                           ;
 
             Declaracion.Rule = Tipo + Nombres + Eos
                             | Tipo + Nombres + "=>" + Operacion + Eos
                             | Tipo + ID + Dimensiones + Eos;
 
+            LISTA_PARAMETROS.Rule =
+                                    LISTA_PARAMETROS + "," + LISTA_PARAMETROS
+                                  | Tipo + ID ;
+                                    
             Asignacion.Rule = ID + "=>" + Operacion + Eos
                             | ID + Dimensiones + "=>" + Operacion + Eos
                             | ID + "." + ID + "=>" + Operacion + Eos;
@@ -287,15 +301,26 @@ namespace C3D_Combiner
 
             Salir.Rule = Rsalir + Eos;
 
+            LLAMAR_SUPER.Rule = Indent + super  + Nombres + "]" + Dedent
+                               | Indent + super  + "]" + Dedent;
+
             Condicion.Rule = Logica;
             //Condicion.Rule = MakePlusRule(Condicion, Logica);
 
-            Logica.Rule = "{" + Logica + Logica + Or + "}"
-                        | "{" + Logica + Logica + and + "}"
-                        | "{" + Logica + Logica + XOR + "}"
-                       // | "{" + Logica + Logica + not + "}"
-                        | "{" +  Logica + not +"}"
-                        | Relacional;
+            Logica.Rule = 
+                
+                        /*"{" + Relacional + Relacional + Or + "}"
+                        | "{" + Relacional + Relacional + and + "}"
+                        | "{" + Relacional + Relacional + XOR + "}"                        
+                        | "{" + Relacional + not + "}"*/
+
+                           "{" + Logica + Logica + Or + "}"
+                         | "{" + Logica + Logica + and + "}"
+                         | "{" + Logica + Logica + XOR + "}"
+                         | "{" + Logica + Logica + not + "}"
+                         | "{" + Logica + not +"}"
+                         | "{" + Relacional + not + "}"
+                         | Relacional;
 
             Relacional.Rule = "[" + Relacional + Relacional + Igual + "]"
                             | "[" + Relacional + Relacional + Diferente + "]"
@@ -348,8 +373,11 @@ namespace C3D_Combiner
                        | privado
                        | protegido;
 
-            Funciones.Rule = ID + "[" + Operaciones + "]" + Eos
+            Funciones.Rule = super + "[" + Operaciones + "]" + Eos
+                           | super + "[" + "]" + Eos
+                           | ID + "[" + Operaciones + "]" + Eos
                            | ID + "[" + "]" + Eos;
+                           //| LLAMAR_SUPER;
 
             Operaciones.Rule = Operaciones + "," + Operacion
                               | Operacion;
@@ -368,6 +396,10 @@ namespace C3D_Combiner
             Parametro.Rule = Tipo + ID;
 
             this.Root = S;
+
+            RegisterOperators(1, Funciones);
+            RegisterOperators(2, Asignacion);
+
         }
 
        /* public override void CreateToCADenFilters(LanguageData language, ToCADenFilterList filters)
