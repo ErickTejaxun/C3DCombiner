@@ -24,7 +24,9 @@ namespace C3D_Combiner
             RegexBasedTerminal importar = new RegexBasedTerminal("importar", "importar ");
             //RegexBasedTerminal super = new RegexBasedTerminal("super", "super");
             var super = ToTerm("super");
-            RegexBasedTerminal sobreescribir = new RegexBasedTerminal("sobreescribir", "\\/\\*\\*Sobreescribir\\*\\*\\/");
+            //RegexBasedTerminal sobreescribir = new RegexBasedTerminal("sobreescribir", "\\/\\*\\*Sobreescribir\\*\\*\\/");
+            //var sobreescribir = ToTerm("\\/\\*\\*Sobreescribir\\*\\*\\/");
+            var sobreescribir = ToTerm("/**Sobreescribir**/");
             RegexBasedTerminal metodo = new RegexBasedTerminal("metodo", "metodo");
             RegexBasedTerminal funcion = new RegexBasedTerminal("funcion", "funcion");
             RegexBasedTerminal clase = new RegexBasedTerminal("clase", "clase");
@@ -172,6 +174,7 @@ namespace C3D_Combiner
                     LISTACUERPO = new NonTerminal("LISTACUERPO"),
                     LLAMAR_SUPER = new NonTerminal("LLAMAR_SUPER"),
                     LISTA_PARAMETROS = new NonTerminal("LISTA_PARAMETROS"),
+                    PRAGMA_SOBREESCRIBIR = new NonTerminal("PRAGMA_SOBREESCRIBIR"),
                     CAD = new NonTerminal("CAD");
 
             S.Rule = Cabeza + LISTACUERPO
@@ -213,15 +216,18 @@ namespace C3D_Combiner
 
             Componentes.Rule = Componentes + Componente
                             | Componente;
+            //| sobreescribir + Eos + Componente ;
+            PRAGMA_SOBREESCRIBIR.Rule = sobreescribir + Eos 
+                                        | Empty;
 
-            Componente.Rule = ID + "[]:" + Eos + Indent + Sentencias + Dedent//3
-                            | ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//5
-                            | Tipo + ID + "[]:" + Eos + Indent + Sentencias + Dedent//4
-                            | Tipo + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//6
-                            | Visibilidad + ID + "[]:" + Eos + Indent + Sentencias + Dedent//4
-                            | Visibilidad + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//6
-                            | Visibilidad + Tipo + ID + "[]:" + Eos + Indent + Sentencias + Dedent//5
-                            | Visibilidad + Tipo + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent;//7
+            Componente.Rule = PRAGMA_SOBREESCRIBIR+ ID + "[]:" + Eos + Indent + Sentencias + Dedent//3
+                            | PRAGMA_SOBREESCRIBIR + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//5
+                            | PRAGMA_SOBREESCRIBIR + Tipo + ID + "[]:" + Eos + Indent + Sentencias + Dedent//4
+                            | PRAGMA_SOBREESCRIBIR + Tipo + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//6
+                            | PRAGMA_SOBREESCRIBIR + Visibilidad + ID + "[]:" + Eos + Indent + Sentencias + Dedent//4
+                            | PRAGMA_SOBREESCRIBIR + Visibilidad + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//6
+                            | PRAGMA_SOBREESCRIBIR + Visibilidad + Tipo + ID + "[]:" + Eos + Indent + Sentencias + Dedent//5
+                            | PRAGMA_SOBREESCRIBIR + Visibilidad + Tipo + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent;//7
 
             Sentencias.Rule = Sentencias + Sentencia
                             | Sentencia;
