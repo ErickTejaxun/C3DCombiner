@@ -213,7 +213,11 @@ namespace C3D_Combiner
             Global.Rule = Tipo + Nombres + Eos
                         | Visibilidad + Tipo + Nombres + Eos
                         | Tipo + Nombres + "=>" + Operacion + Eos
-                        | Visibilidad + Tipo + Nombres + "=>" + Operacion + Eos;
+                        | Visibilidad + Tipo + Nombres + "=>" + Operacion + Eos
+                        | Tipo + Nombres + Dimensiones + Eos
+                        | Visibilidad + Tipo + Nombres + Dimensiones + Eos
+                        | Tipo + Nombres + "=>" + Operacion + Eos
+                        | Visibilidad + Tipo + Nombres + "=>" + Operacion + Eos; ;
 
             Nombres.Rule = Nombres + "," + ID
                         | ID;
@@ -221,10 +225,10 @@ namespace C3D_Combiner
             Componentes.Rule = Componentes + Componente
                             | Componente;
             //| sobreescribir + Eos + Componente ;
-            PRAGMA_SOBREESCRIBIR.Rule = sobreescribir + Eos 
+            PRAGMA_SOBREESCRIBIR.Rule = sobreescribir + Eos
                                         | Empty;
 
-            Componente.Rule = PRAGMA_SOBREESCRIBIR+ ID + "[]:" + Eos + Indent + Sentencias + Dedent//3
+            Componente.Rule = PRAGMA_SOBREESCRIBIR + ID + "[]:" + Eos + Indent + Sentencias + Dedent//3
                             | PRAGMA_SOBREESCRIBIR + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//5
                             | PRAGMA_SOBREESCRIBIR + constructor + "[]:" + Eos + Indent + Sentencias + Dedent//3
                             | PRAGMA_SOBREESCRIBIR + constructor + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//5
@@ -258,10 +262,12 @@ namespace C3D_Combiner
                            | intASt
                            | douAINt
                            | Salir
+                           //| Operacion
                            ;
 
             Declaracion.Rule = Tipo + Nombres + Eos
                             | Tipo + Nombres + "=>" + Operacion + Eos
+                            | Tipo + Nombres + "=>" + nuevo + ID + "[" + PARAMETROS_INSTANCIA +"]" + Eos
                             //objeto nombre => nuevo objeto[]
                             /*| Tipo + Nombres + "=>" + nuevo + Tipo +"["+ Nombres + "]" + Eos
                             | Tipo + Nombres + "=>" + nuevo + Tipo + "[" +  "]" + Eos
@@ -276,13 +282,14 @@ namespace C3D_Combiner
             Asignacion.Rule = ID + "=>" + Operacion + Eos
                             | ID + Dimensiones + "=>" + Operacion + Eos
                             | ID + "." + ID + "=>" + Operacion + Eos
-                            | ID + "=>"+ nuevo + ID + "[" + "]" + Eos
-                            | ID + Dimensiones + "=>" + nuevo + ID + "[" + "]" + Eos
-                            | ID + "." + ID + "=>" + nuevo + ID + "[" + "]" + Eos;
+                            | ID + "=>"+ nuevo + ID + "[" + PARAMETROS_INSTANCIA+ "]" + Eos
+                            | ID + Dimensiones + "=>" + nuevo + ID + "[" + PARAMETROS_INSTANCIA+ "]" + Eos
+                            | ID + "." + ID + "=>" + nuevo + ID + "[" + PARAMETROS_INSTANCIA+"]" + Eos;
 
             PARAMETROS_INSTANCIA.Rule = PARAMETROS_INSTANCIA + "," + ID
                                         | ID
-                                        | ID + "." + ID;
+                                        | ID + "." + ID
+                                        | Empty;
 
             IF.Rule = Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + SinoS + Sino//7
                       | Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + Sino//6
