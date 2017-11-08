@@ -36,6 +36,7 @@ namespace C3D_Combiner
             RegexBasedTerminal Rself = new RegexBasedTerminal("Rself", "self");
             //RegexBasedTerminal Rsi = new RegexBasedTerminal("Rsi", "SI ");
             var Rsi = ToTerm("SI");
+            var nuevo = ToTerm("nuevo");
             RegexBasedTerminal Rsino = new RegexBasedTerminal("Rsino", "SI_NO ");
             RegexBasedTerminal Rsinosi = new RegexBasedTerminal("Rsinosi", "SI_NO_SI ");
             RegexBasedTerminal Rsalir = new RegexBasedTerminal("Rsalir", "salir ");
@@ -176,7 +177,8 @@ namespace C3D_Combiner
                     LLAMAR_SUPER = new NonTerminal("LLAMAR_SUPER"),
                     LISTA_PARAMETROS = new NonTerminal("LISTA_PARAMETROS"),
                     PRAGMA_SOBREESCRIBIR = new NonTerminal("PRAGMA_SOBREESCRIBIR"),
-                    CLASE = new NonTerminal("CLASE"),
+                    OBJETO = new NonTerminal("OBJETO"),
+                    PARAMETROS_INSTANCIA = new NonTerminal("PARAMETROS_INSTANCIA"),
                     CAD = new NonTerminal("CAD");
 
             S.Rule = Cabeza + LISTACUERPO
@@ -260,6 +262,11 @@ namespace C3D_Combiner
 
             Declaracion.Rule = Tipo + Nombres + Eos
                             | Tipo + Nombres + "=>" + Operacion + Eos
+                            //objeto nombre => nuevo objeto[]
+                            /*| Tipo + Nombres + "=>" + nuevo + Tipo +"["+ Nombres + "]" + Eos
+                            | Tipo + Nombres + "=>" + nuevo + Tipo + "[" +  "]" + Eos
+                            | Tipo + ID + Dimensiones + "=>" + nuevo + Tipo + "[" + "]" + Eos
+                            | Tipo + ID + Dimensiones + "=>" + nuevo + Tipo + "[" + Nombres +"]" + Eos*/
                             | Tipo + ID + Dimensiones + Eos;
 
             LISTA_PARAMETROS.Rule =
@@ -268,7 +275,14 @@ namespace C3D_Combiner
                                     
             Asignacion.Rule = ID + "=>" + Operacion + Eos
                             | ID + Dimensiones + "=>" + Operacion + Eos
-                            | ID + "." + ID + "=>" + Operacion + Eos;
+                            | ID + "." + ID + "=>" + Operacion + Eos
+                            | ID + "=>"+ nuevo + ID + "[" + "]" + Eos
+                            | ID + Dimensiones + "=>" + nuevo + ID + "[" + "]" + Eos
+                            | ID + "." + ID + "=>" + nuevo + ID + "[" + "]" + Eos;
+
+            PARAMETROS_INSTANCIA.Rule = PARAMETROS_INSTANCIA + "," + ID
+                                        | ID
+                                        | ID + "." + ID;
 
             IF.Rule = Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + SinoS + Sino//7
                       | Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + Sino//6
@@ -365,10 +379,10 @@ namespace C3D_Combiner
 
             Dimension.Rule = "[" + Operacion + "]";
 
-            CLASE.Rule = ID;
+            OBJETO.Rule = ID;
 
             Tipo.Rule = 
-                        CLASE
+                        OBJETO
                       | REntero
                       | Rboolean
                       | RCadena
