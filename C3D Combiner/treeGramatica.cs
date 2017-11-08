@@ -37,10 +37,10 @@ namespace C3D_Combiner
             //RegexBasedTerminal Rsi = new RegexBasedTerminal("Rsi", "SI ");
             var Rsi = ToTerm("SI");
             var nuevo = ToTerm("nuevo");
-            RegexBasedTerminal Rsino = new RegexBasedTerminal("Rsino", "SI_NO ");
-            //var Rsino = ToTerm("SI_NO");
-            RegexBasedTerminal Rsinosi = new RegexBasedTerminal("Rsinosi", "SI_NO_SI ");
-            //var Rsino = ToTerm("SI_NO_SI");
+            //RegexBasedTerminal Rsino = new RegexBasedTerminal("Rsino", "SI_NO ");
+            var Rsino = ToTerm("SI_NO");
+            //RegexBasedTerminal Rsinosi = new RegexBasedTerminal("Rsinosi", "SI_NO_SI ");
+            var Rsinosi = ToTerm("SI_NO_SI");
             RegexBasedTerminal Rsalir = new RegexBasedTerminal("Rsalir", "salir ");
             RegexBasedTerminal Relegir = new RegexBasedTerminal("Relejir", "ELEGIR CASO ");
             RegexBasedTerminal Rcontinuar = new RegexBasedTerminal("Rcontinuar", "CONTINUAR ");
@@ -182,6 +182,7 @@ namespace C3D_Combiner
                     OBJETO = new NonTerminal("OBJETO"),
                     PARAMETROS_INSTANCIA = new NonTerminal("PARAMETROS_INSTANCIA"),
                     AUMENTO_DECREMENTO = new NonTerminal("AUMENTO_DECREMENTO"),
+                    ELSE = new NonTerminal("ELSE"),
                     CAD = new NonTerminal("CAD");
 
             S.Rule = Cabeza + LISTACUERPO
@@ -300,12 +301,17 @@ namespace C3D_Combiner
                                         | ID + "." + ID
                                         | Empty;
 
-            IF.Rule = Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + SinoS + Sino//7
-                      | Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + Sino//6
-                      | Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + SinoS//6
-                      | Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//5
+            IF.Rule = Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + ELSE//7
+                      //| Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + Sino//6
+                      //| Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent + SinoS//6
+                      ;//| Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//5
 
-            SinoS.Rule = SinoS + Rsinosi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//7
+            ELSE.Rule =  ELSE + ELSE
+                        |Sino
+                        | SinoS
+                        | Empty;
+
+            SinoS.Rule =  Rsinosi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//7
                          | Rsinosi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//6
 
             Sino.Rule = Rsino + DosPuntos + Eos + Indent + Sentencias + Dedent;
