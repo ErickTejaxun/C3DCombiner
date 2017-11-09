@@ -74,31 +74,31 @@ clase cliente[persona]:
 
 ##Listado de clientes
 clase manejador[]:
-    publico entero id
-    publico cliente listaClientes[100]
-    publico cliente administrador
-    publico entero contadorClientes
+	publico entero id
+	publico cliente listaClientes[100]
+	publico cliente administrador
+	publico entero contadorClientes
 
-    __constructor[entero id]:
-        self.id => id ## Indicando numero de manejador
-       	## Instanciando al administrador
-        administrador => nuevo administrador[id,nombre,apellido,direccion,nit,telefono]
-        ## Iniciando contador de clientes.
-        self.contadorClientes => 1
+	__constructor[entero id]:
+		self.id => id ## Indicando numero de manejador
+		## Instanciando al administrador
+		administrador => nuevo administrador[id,nombre,apellido,direccion,nit,telefono]
+		## Iniciando contador de clientes.
+		self.contadorClientes => 1
 
-    publico void agregarCliente[entero id, cadena nombre, cadena apellido, cadena direccion, cadena nit, entero telefono]:    
-        cliente nuevoCliente => nuevo Cliente[id, nombre, apellido, direccion, nit, telefono]    
-        ##Ahora vamos agregar el nuevo cliente al array.
-        si [[contadorClientes 1 <]]:
-            listaClientes[1] => nuevoCliente
-            contadorClientes++
-        si_no_si[{ { {   { { [a b >] not} true and} {[c 5 ==] false or} xor} {{[d 4 <=] {1 not} and} [e 7 !=] xor} or} [5 g >=] and}]: 
+	publico void agregarCliente[entero id, cadena nombre, cadena apellido, cadena direccion, cadena nit, entero telefono]:    
+		cliente nuevoCliente => nuevo Cliente[id, nombre, apellido, direccion, nit, telefono]    
+		##Ahora vamos agregar el nuevo cliente al array.
+		si [[contadorClientes 1 <]]:
+			listaClientes[1] => nuevoCliente
+			contadorClientes++
+		si_no_si[{ { {   { { [a b >] not} true and} {[c 5 ==] false or} xor} {{[d 4 <=] {1 not} and} [e 7 !=] xor} or} [5 g >=] and}]: 
 			salir
-        si_no: 
-            listaCliente[contadorClientes]=> nuevoCliente
-            contadorClientes++
+		si_no: 
+			listaCliente[contadorClientes]=> nuevoCliente
+			contadorClientes++
 
-    publico void compararNumeros[entero a, entero b]:    
+	publico void compararNumeros[entero a, entero b]:    
 		si[[a b >]]:
 			out_string[a]
 			out_string[("Es mayor que" b +)]
@@ -106,7 +106,7 @@ clase manejador[]:
 			out_string[a]
 			out_string[("Es menor que" b +)]
 
-    publico void compararNumeros[entero a, entero b]:    
+	publico void compararNumeros[entero a, entero b]:    
 		si[[a b >]]:
 			out_string[a]
 			out_string[("Es mayor que" b +)]
@@ -115,7 +115,7 @@ clase manejador[]:
 			out_string[("Es menor que" b +)]
 
 
-    publico void datoCliente[entero id, entero dato]:
+	publico void datoCliente[entero id, entero dato]:
 		ELEGIR CASO (dato):
 			1:
 				out_string[listaClientes[id].nombre]
@@ -130,6 +130,13 @@ clase manejador[]:
 				out_string[listaClientes[id].credito]
 				salir
 
-    publico void imprimirClientes[entero numero]:
+	publico void imprimirClientes[entero numero]:
 		PARA[ entero  contador => 0 : [ contador  100  < ] :contador++]: ## Hay que revisar ya que en el ejemplo el aumento o decrementeo viene entre parentesis
 			out_string[listaClientes[x].nombre]
+
+	publico void imprimirClientes[entero numero]:	
+		entero contador => 0
+		hacer:
+			out_string[listaClientes[x].nombre]
+		mientras[[contador numero >]]			
+

@@ -46,8 +46,10 @@ namespace C3D_Combiner
             //var Rsalir = ToTerm("salir ");
             RegexBasedTerminal Relegir = new RegexBasedTerminal("Relejir", "ELEGIR CASO ");
             RegexBasedTerminal Rcontinuar = new RegexBasedTerminal("Rcontinuar", "CONTINUAR ");
-            RegexBasedTerminal Rmientras = new RegexBasedTerminal("Rmientras", "MIENTRAS ");
-            RegexBasedTerminal Rhacer = new RegexBasedTerminal("Rhacer", "HACER ");
+            //RegexBasedTerminal Rmientras = new RegexBasedTerminal("Rmientras", "MIENTRAS ");
+            var Rmientras = ToTerm("mientras");
+            //RegexBasedTerminal Rhacer = new RegexBasedTerminal("Rhacer", "HACER ");
+            var Rhacer = ToTerm("hacer");
             RegexBasedTerminal Rrepetir = new RegexBasedTerminal("Rrepetir", "REPETIR ");
             RegexBasedTerminal Rhasta = new RegexBasedTerminal("Rhasta", "HASTA ");
             //RegexBasedTerminal RPara = new RegexBasedTerminal("Rpara", "Para");
@@ -325,9 +327,9 @@ namespace C3D_Combiner
                         | RPara + "["+ Tipo + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + aumentar + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//13
                         | RPara +"["+ Tipo + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + disminuir + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//13
 
-            While.Rule = Rmientras + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;
+            While.Rule = Rmientras +  Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;
 
-            Do_While.Rule = Rhacer + DosPuntos + Eos + Indent + Sentencias + Dedent + Rmientras + Condicion + "]";
+            Do_While.Rule = Rhacer + DosPuntos + Eos + Indent + Sentencias + Dedent + Rmientras +"["+ Condicion + "]" + Eos;
 
             Repetir.Rule = Rrepetir + DosPuntos + Eos + Indent + Sentencias + Dedent + Rhasta + Condicion + "]";
 
