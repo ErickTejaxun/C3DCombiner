@@ -327,7 +327,7 @@ namespace C3D_Combiner
                         | RPara + "["+ Tipo + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + aumentar + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//13
                         | RPara +"["+ Tipo + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + disminuir + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//13
 
-            While.Rule = Rmientras +  Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;
+            While.Rule = Rmientras + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;
 
             Do_While.Rule = Rhacer + DosPuntos + Eos + Indent + Sentencias + Dedent + Rmientras +"["+ Condicion + "]" + Eos;
 

@@ -137,6 +137,13 @@ clase manejador[]:
 	publico void imprimirClientes[entero numero]:	
 		entero contador => 0
 		hacer:
-			out_string[listaClientes[x].nombre]
-		mientras[[contador numero >]]			
+			out_string[listaClientes[contador].nombre]
+			contador ++
+		mientras[[contador numero >]]
+
+	publico void imprimirClientes2[entero numero]:	
+		entero contador => 0		
+		mientras[[contador numero >]]
+			out_string[listaClientes[contador].nombre]
+			contador ++
 
