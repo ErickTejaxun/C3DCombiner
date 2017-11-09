@@ -50,7 +50,8 @@ namespace C3D_Combiner
             RegexBasedTerminal Rhacer = new RegexBasedTerminal("Rhacer", "HACER ");
             RegexBasedTerminal Rrepetir = new RegexBasedTerminal("Rrepetir", "REPETIR ");
             RegexBasedTerminal Rhasta = new RegexBasedTerminal("Rhasta", "HASTA ");
-            RegexBasedTerminal RPara = new RegexBasedTerminal("Rpara", "Para\\[");
+            //RegexBasedTerminal RPara = new RegexBasedTerminal("Rpara", "Para");
+            var RPara = ToTerm("Para");
             RegexBasedTerminal Rloop = new RegexBasedTerminal("Rloop", "loop ");
             RegexBasedTerminal metodoImprimir = new RegexBasedTerminal("metodoImprimir", "out_string\\[");
             RegexBasedTerminal RParseint = new RegexBasedTerminal("RParseint", "ParseInt\\[");
@@ -319,10 +320,10 @@ namespace C3D_Combiner
 
             SINO.Rule = Rsino + DosPuntos + Eos + Indent + Sentencias + Dedent;
 
-            For.Rule = RPara + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + aumentar + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//12
-                        | RPara + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + disminuir + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//12
-                        | RPara + Tipo + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + aumentar + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//13
-                        | RPara + Tipo + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + disminuir + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//13
+            For.Rule = RPara +"["+ ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + aumentar + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//12
+                        | RPara + "["+ ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + disminuir + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//12
+                        | RPara + "["+ Tipo + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + aumentar + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//13
+                        | RPara +"["+ Tipo + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + disminuir + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//13
 
             While.Rule = Rmientras + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;
 

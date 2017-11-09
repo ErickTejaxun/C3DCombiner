@@ -129,3 +129,7 @@ clase manejador[]:
 			4:
 				out_string[listaClientes[id].credito]
 				salir
+
+    publico void imprimirClientes[entero numero]:
+		PARA[ entero  contador => 0 : [ contador  100  < ] :contador++]: ## Hay que revisar ya que en el ejemplo el aumento o decrementeo viene entre parentesis
+			out_string[listaClientes[x].nombre]
