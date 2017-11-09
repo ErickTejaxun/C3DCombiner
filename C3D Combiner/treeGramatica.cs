@@ -41,7 +41,9 @@ namespace C3D_Combiner
             var Rsino = ToTerm("SI_NO");
             //RegexBasedTerminal Rsinosi = new RegexBasedTerminal("Rsinosi", "SI_NO_SI ");
             var Rsinosi = ToTerm("SI_NO_SI");
-            RegexBasedTerminal Rsalir = new RegexBasedTerminal("Rsalir", "salir ");
+            //RegexBasedTerminal Rsalir = new RegexBasedTerminal("Rsalir", "salir ");
+            var Rsalir = ToTerm("salir");
+            //var Rsalir = ToTerm("salir ");
             RegexBasedTerminal Relegir = new RegexBasedTerminal("Relejir", "ELEGIR CASO ");
             RegexBasedTerminal Rcontinuar = new RegexBasedTerminal("Rcontinuar", "CONTINUAR ");
             RegexBasedTerminal Rmientras = new RegexBasedTerminal("Rmientras", "MIENTRAS ");
@@ -50,7 +52,7 @@ namespace C3D_Combiner
             RegexBasedTerminal Rhasta = new RegexBasedTerminal("Rhasta", "HASTA ");
             RegexBasedTerminal RPara = new RegexBasedTerminal("Rpara", "Para\\[");
             RegexBasedTerminal Rloop = new RegexBasedTerminal("Rloop", "loop ");
-            RegexBasedTerminal RoutS = new RegexBasedTerminal("RoutS", "out_string\\[");
+            RegexBasedTerminal metodoImprimir = new RegexBasedTerminal("metodoImprimir", "out_string\\[");
             RegexBasedTerminal RParseint = new RegexBasedTerminal("RParseint", "ParseInt\\[");
             RegexBasedTerminal RParseD = new RegexBasedTerminal("RParseD", "ParseDouble\\[");
             RegexBasedTerminal RintToSTR = new RegexBasedTerminal("RintToSTR", "intToSTR\\[");
@@ -124,25 +126,25 @@ namespace C3D_Combiner
             this.RegisterOperators(4, Menor, Mayor, MenorQue, MayorQue, Igual, Diferente);
             this.RegisterOperators(5, Or, not, XOR, and);
 
-            NonTerminal S = new NonTerminal("S"),
-                    Cabeza = new NonTerminal("Cabeza"),
-                    Cuerpo = new NonTerminal("Cuerpo"),
-                    importaciones = new NonTerminal("importaciones"),
-                    importacion = new NonTerminal("importacion"),
+            NonTerminal RAIZ = new NonTerminal("S"),
+                    ENCABEZADO = new NonTerminal("Cabeza"),
+                    CUERPO = new NonTerminal("Cuerpo"),
+                    IMPORTACIONES = new NonTerminal("importaciones"),
+                    IMPORTACION = new NonTerminal("importacion"),
                     Componentes = new NonTerminal("Componentes"),
                     Componente = new NonTerminal("Componente"),
                     Parametros = new NonTerminal("Parametros"),
                     Parametro = new NonTerminal("Parametro"),
                     Sentencias = new NonTerminal("Sentencias"),
-                    Sentencia = new NonTerminal("Sentencia"),
-                    Declaracion = new NonTerminal("Declaracion"),
-                    Asignacion = new NonTerminal("Asignacion"),
+                    SENTENCIA = new NonTerminal("Sentencia"),
+                    DECLARACION = new NonTerminal("Declaracion"),
+                    ASIGNACION = new NonTerminal("Asignacion"),
                     While = new NonTerminal("While"),
                     Do_While = new NonTerminal("Do_While"),
                     IF = new NonTerminal("If"),
                     For = new NonTerminal("for"),
                     Loop = new NonTerminal("Loop"),
-                    Elegir = new NonTerminal("Elegir"),
+                    ELEGIR = new NonTerminal("Elegir"),
                     Casos = new NonTerminal("Casos"),
                     Caso = new NonTerminal("Caso"),
                     SalidaC = new NonTerminal("SalidaC"),
@@ -152,13 +154,13 @@ namespace C3D_Combiner
                     douASt = new NonTerminal("douASt"),
                     douAINt = new NonTerminal("douAINt"),
                     Imprimir = new NonTerminal("Imprimir"),
-                    Visibilidad = new NonTerminal("Visibilidad"),
+                    VISIBILIDAD = new NonTerminal("Visibilidad"),
                     Contenido = new NonTerminal("Contenido"),
                     Globales = new NonTerminal("Globales"),
                     Global = new NonTerminal("Global"),
                     Tipo = new NonTerminal("Tipo"),
                     Retorno = new NonTerminal("Retorno"),
-                    Funciones = new NonTerminal("Funciones"),
+                    FUNCIONES = new NonTerminal("Funciones"),
                     Operacion = new NonTerminal("Operacion"),
                     Operaciones = new NonTerminal("Operaciones"),
                     Dimensiones = new NonTerminal("Dimensiones"),
@@ -170,11 +172,11 @@ namespace C3D_Combiner
                     Logica = new NonTerminal("Logica"),
                     Relacional = new NonTerminal("Relacional"),
                     Nombres = new NonTerminal("Nombres"),
-                    Valor = new NonTerminal("Valor"),
-                    Sino = new NonTerminal("Sino"),
+                    VALOR = new NonTerminal("Valor"),
+                    SINO = new NonTerminal("Sino"),
                     Salir = new NonTerminal("Salir"),
                     Repetir = new NonTerminal("Repetir"),
-                    SinoS = new NonTerminal("SinoS"),
+                    SINOSI = new NonTerminal("SinoS"),
                     LISTACUERPO = new NonTerminal("LISTACUERPO"),
                     LLAMAR_SUPER = new NonTerminal("LLAMAR_SUPER"),
                     LISTA_PARAMETROS = new NonTerminal("LISTA_PARAMETROS"),
@@ -185,28 +187,28 @@ namespace C3D_Combiner
                     ELSE = new NonTerminal("ELSE"),
                     CAD = new NonTerminal("CAD");
 
-            S.Rule = Cabeza + LISTACUERPO
+            RAIZ.Rule = ENCABEZADO + LISTACUERPO
                    | LISTACUERPO;
 
-            Cabeza.Rule = importar + importaciones + Eos;
+            ENCABEZADO.Rule = importar + IMPORTACIONES + Eos;
 
-            importaciones.Rule = importaciones + "," + importacion
-                            | importacion;
+            IMPORTACIONES.Rule = IMPORTACIONES + "," + IMPORTACION
+                            | IMPORTACION;
 
-            importacion.Rule = ID + "." + ID
+            IMPORTACION.Rule = ID + "." + ID
                             | Cadena
                             | ruta;
 
             //LISTACUERPO.Rule = MakePlusRule(LISTACUERPO, Cuerpo);
-            LISTACUERPO.Rule = Indent + Cuerpo + Dedent;
+            LISTACUERPO.Rule = Indent + CUERPO + Dedent;
 
-            Cuerpo.Rule = MakeStarRule(LISTACUERPO, Cuerpo);
+            CUERPO.Rule = MakeStarRule(LISTACUERPO, CUERPO);
 
 
-            Cuerpo.Rule = clase + ID + "[" + ID + "]:" + Eos + Indent + Partes + Dedent //6
+            CUERPO.Rule = clase + ID + "[" + ID + "]:" + Eos + Indent + Partes + Dedent //6
                           | clase + ID + "[]:" + Eos + Indent + Partes + Dedent  //4
-                          | Visibilidad + clase + ID + "[]:" + Eos + Indent + Partes + Dedent //5
-                          | Visibilidad + clase + ID + "[" + ID + "]:" + Eos + Indent + Partes + Dedent;//7
+                          | VISIBILIDAD + clase + ID + "[]:" + Eos + Indent + Partes + Dedent //5
+                          | VISIBILIDAD + clase + ID + "[" + ID + "]:" + Eos + Indent + Partes + Dedent;//7
 
             Partes.Rule = Globales + Componentes
                         | Componentes;
@@ -215,13 +217,13 @@ namespace C3D_Combiner
                             | Global;
 
             Global.Rule = Tipo + Nombres + Eos
-                        | Visibilidad + Tipo + Nombres + Eos
+                        | VISIBILIDAD + Tipo + Nombres + Eos
                         | Tipo + Nombres + "=>" + Operacion + Eos
-                        | Visibilidad + Tipo + Nombres + "=>" + Operacion + Eos
+                        | VISIBILIDAD + Tipo + Nombres + "=>" + Operacion + Eos
                         | Tipo + Nombres + Dimensiones + Eos
-                        | Visibilidad + Tipo + Nombres + Dimensiones + Eos
+                        | VISIBILIDAD + Tipo + Nombres + Dimensiones + Eos
                         | Tipo + Nombres + "=>" + Operacion + Eos
-                        | Visibilidad + Tipo + Nombres + "=>" + Operacion + Eos; ;
+                        | VISIBILIDAD + Tipo + Nombres + "=>" + Operacion + Eos; ;
 
             Nombres.Rule = Nombres + "," + ID
                         | ID;
@@ -238,18 +240,19 @@ namespace C3D_Combiner
                             | PRAGMA_SOBREESCRIBIR + constructor + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//5
                             | PRAGMA_SOBREESCRIBIR + Tipo + ID + "[]:" + Eos + Indent + Sentencias + Dedent//4
                             | PRAGMA_SOBREESCRIBIR + Tipo + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//6
-                            | PRAGMA_SOBREESCRIBIR + Visibilidad + ID + "[]:" + Eos + Indent + Sentencias + Dedent//4
-                            | PRAGMA_SOBREESCRIBIR + Visibilidad + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//6
-                            | PRAGMA_SOBREESCRIBIR + Visibilidad + Tipo + ID + "[]:" + Eos + Indent + Sentencias + Dedent//5
-                            | PRAGMA_SOBREESCRIBIR + Visibilidad + Tipo + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent;//7
+                            | PRAGMA_SOBREESCRIBIR + VISIBILIDAD + ID + "[]:" + Eos + Indent + Sentencias + Dedent//4
+                            | PRAGMA_SOBREESCRIBIR + VISIBILIDAD + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent//6
+                            | PRAGMA_SOBREESCRIBIR + VISIBILIDAD + Tipo + ID + "[]:" + Eos + Indent + Sentencias + Dedent//5
+                            | PRAGMA_SOBREESCRIBIR + VISIBILIDAD + Tipo + ID + "[" + Parametros + "]:" + Eos + Indent + Sentencias + Dedent;//7
 
-            Sentencias.Rule = Sentencias + Sentencia
-                            | Sentencia;
+            Sentencias.Rule = Sentencias + SENTENCIA
+                            | SENTENCIA;
 
-            Sentencia.Rule = Retorno
-                           | Funciones
-                           | Asignacion
-                           | Declaracion
+            SENTENCIA.Rule = Retorno
+                           | Salir // Vamos a ver si la quitamos.
+                           | FUNCIONES
+                           | ASIGNACION
+                           | DECLARACION
                            //| LLAMAR_SUPER                           
                            | IF
                            | For
@@ -257,7 +260,7 @@ namespace C3D_Combiner
                            | Loop
                            | Do_While
                            | Imprimir
-                           | Elegir
+                           | ELEGIR
                            | Loop
                            | SalidaC
                            | aINT
@@ -265,7 +268,7 @@ namespace C3D_Combiner
                            | douASt
                            | intASt
                            | douAINt
-                           | Salir
+                           //| Salir
                            | AUMENTO_DECREMENTO
                            //| Operacion
                            ;
@@ -275,7 +278,7 @@ namespace C3D_Combiner
             AUMENTO_DECREMENTO.Rule = ID + aumentar + Eos
                                      |ID + disminuir  + Eos;
 
-            Declaracion.Rule = Tipo + Nombres + Eos
+            DECLARACION.Rule = Tipo + Nombres + Eos
                             | Tipo + Nombres + "=>" + Operacion + Eos
                             | Tipo + Nombres + "=>" + nuevo + ID + "[" + PARAMETROS_INSTANCIA +"]" + Eos
                             //objeto nombre => nuevo objeto[]
@@ -289,7 +292,7 @@ namespace C3D_Combiner
                                     LISTA_PARAMETROS + "," + LISTA_PARAMETROS
                                   | Tipo + ID ;
                                     
-            Asignacion.Rule = ID + "=>" + Operacion + Eos
+            ASIGNACION.Rule = ID + "=>" + Operacion + Eos
                             | ID + Dimensiones + "=>" + Operacion + Eos
                             | ID + "." + ID + "=>" + Operacion + Eos
                             | ID + "=>"+ nuevo + ID + "[" + PARAMETROS_INSTANCIA+ "]" + Eos
@@ -307,14 +310,14 @@ namespace C3D_Combiner
                       ;//| Rsi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//5
 
             ELSE.Rule =  ELSE + ELSE
-                        |Sino
-                        | SinoS
+                        |SINO
+                        | SINOSI
                         | Empty;
 
-            SinoS.Rule =  Rsinosi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//7
+            SINOSI.Rule =  Rsinosi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//7
                          | Rsinosi + "[" + Condicion + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent;//6
 
-            Sino.Rule = Rsino + DosPuntos + Eos + Indent + Sentencias + Dedent;
+            SINO.Rule = Rsino + DosPuntos + Eos + Indent + Sentencias + Dedent;
 
             For.Rule = RPara + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + aumentar + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//12
                         | RPara + ID + "=>" + Operacion + DosPuntos + Condicion + DosPuntos + ID + disminuir + "]" + DosPuntos + Eos + Indent + Sentencias + Dedent//12
@@ -329,7 +332,7 @@ namespace C3D_Combiner
 
             Loop.Rule = Rloop + DosPuntos + Eos + Indent + Sentencias + Dedent;
 
-            SalidaC.Rule = RoutS + Operacion + "]" + Eos;
+            SalidaC.Rule = metodoImprimir + Operacion + "]" + Eos;
 
             aINT.Rule = RParseint + Operacion + "]" + Eos;
 
@@ -387,8 +390,10 @@ namespace C3D_Combiner
 
             CAD.Rule = ID
                          | ID + "[" + Operacion + "]"
+                         | ID + "." + ID
+                         | ID + Dimensiones+"." + ID
                          | Rself + "." + ID
-                         | Valor
+                         | VALOR
                          | SalidaC
                          | aINT
                          | aDou
@@ -413,18 +418,18 @@ namespace C3D_Combiner
                       | Rvoid;
                       //| ID;
 
-            Valor.Rule = Entero
+            VALOR.Rule = Entero
                  | Verdadero
                  | Falso
                  | Caracter
                  | Doble
                  | Cadena;
 
-            Visibilidad.Rule = publico
+            VISIBILIDAD.Rule = publico
                        | privado
                        | protegido;
 
-            Funciones.Rule = super + "[" + Operaciones + "]" + Eos
+            FUNCIONES.Rule = super + "[" + Operaciones + "]" + Eos
                            | super + "[" + "]" + Eos
                            | ID + "[" + Operaciones + "]" + Eos
                            | ID + "[" + "]" + Eos;
@@ -433,23 +438,23 @@ namespace C3D_Combiner
             Operaciones.Rule = Operaciones + "," + Operacion
                               | Operacion;
 
-            Elegir.Rule = Relegir + "(" + Operacion + ")" + DosPuntos + Eos + Indent + Casos + Dedent;
+            ELEGIR.Rule = Relegir + "(" + Operacion + ")" + DosPuntos + Eos + Indent + Casos + Dedent;
 
             Casos.Rule = Caso + Casos
                         | Caso;
 
-            Caso.Rule = Operacion + DosPuntos + Indent + Sentencias + Dedent
-                       | "defecto" + DosPuntos + Indent + Sentencias + Dedent;
+            Caso.Rule = Operacion + DosPuntos + Eos +Indent + Sentencias + Dedent
+                       | "defecto" + DosPuntos +Eos +Indent + Sentencias + Dedent;
 
             Parametros.Rule = Parametros + "," + Parametro
                             | Parametro;
 
             Parametro.Rule = Tipo + ID;
 
-            this.Root = S;
+            this.Root = RAIZ;
 
-            RegisterOperators(1, Funciones);
-            RegisterOperators(2, Asignacion);
+            RegisterOperators(1, FUNCIONES);
+            RegisterOperators(2, ASIGNACION);
 
         }
 
