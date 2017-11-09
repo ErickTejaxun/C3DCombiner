@@ -1,0 +1,131 @@
+{-- 
+Archivo de prueba de tipo Tree. 
+Contiene : 
+	* Exportaciones de archivos.	
+	* Declaracion de claseses.
+	* Declaracion de voids
+	* Declaracion de funciones.
+--}
+
+
+importar archivo1.tree, archivo1.olc, archivo2.tree, archivo2.olc, archivo3.tree
+## Clase persona, guardará datos del persona.
+
+clase persona[]:
+	privado cadena nombre
+	publico entero id
+	privado cadena apellido
+	publico entero edad
+
+	__constructor[entero id]:
+		id => id
+
+	publico void setNombre[cadena nombre]:
+		nombre => nombre
+		
+	publico void setApellido[cadena apellido]:
+		apellido => apellido
+
+	privado cadena getNombre[]:
+		retornar nombre
+		
+	privado cadena getApellido[]:
+		retornar apellido
+
+	privado cadena getId[]:
+		retornar id
+
+	protegido void cambiarId[entero nuevoId]:
+		id => nuevoId
+
+	publico void establecerEdad[]:
+		si[ { [ var var2 <] [ a v  > ] or }]:
+			edad => 18
+
+	publico void prueba[]:
+		si [{ { {   { { [a b >] not} true and} {[c 5 ==] false or} xor} {{[d 4 <=] {1 not} and} [e 7 !=] xor} or} [5 g >=] and}]:
+			edad => 19
+
+clase cliente[persona]:
+	entero telefono
+	cadena nit
+	cadena direccion
+	entero tipo
+	decimal credito
+	
+	__constructor[entero id]:
+		super[id]
+
+	__constructor[entero id, cadena nombre, cadena apellido, cadena direccion, cadena nit, entero telefono]:
+		self.id => id
+		apellido => apellido
+		direccion => direccion
+		nit => nit
+		telefono => telefono
+		tipo => 1
+		credito => 0
+
+	publico void cambiarTipo[entero nuevoTipo]:
+		tipo => nuevoTipo
+
+	/**Sobreescribir**/
+	publico void establecerEdad[]:
+		edad => 25
+
+##Listado de clientes
+clase manejador[]:
+    publico entero id
+    publico cliente listaClientes[100]
+    publico cliente administrador
+    publico entero contadorClientes
+
+    __constructor[entero id]:
+        self.id => id ## Indicando numero de manejador
+       	## Instanciando al administrador
+        administrador => nuevo administrador[id,nombre,apellido,direccion,nit,telefono]
+        ## Iniciando contador de clientes.
+        self.contadorClientes => 1
+
+    publico void agregarCliente[entero id, cadena nombre, cadena apellido, cadena direccion, cadena nit, entero telefono]:    
+        cliente nuevoCliente => nuevo Cliente[id, nombre, apellido, direccion, nit, telefono]    
+        ##Ahora vamos agregar el nuevo cliente al array.
+        si [[contadorClientes 1 <]]:
+            listaClientes[1] => nuevoCliente
+            contadorClientes++
+        si_no_si[{ { {   { { [a b >] not} true and} {[c 5 ==] false or} xor} {{[d 4 <=] {1 not} and} [e 7 !=] xor} or} [5 g >=] and}]: 
+			salir
+        si_no: 
+            listaCliente[contadorClientes]=> nuevoCliente
+            contadorClientes++
+
+    publico void compararNumeros[entero a, entero b]:    
+		si[[a b >]]:
+			out_string[a]
+			out_string[("Es mayor que" b +)]
+		si_no:
+			out_string[a]
+			out_string[("Es menor que" b +)]
+
+    publico void compararNumeros[entero a, entero b]:    
+		si[[a b >]]:
+			out_string[a]
+			out_string[("Es mayor que" b +)]
+		si_no:
+			out_string[a]
+			out_string[("Es menor que" b +)]
+
+
+    publico void datoCliente[entero id, entero dato]:
+		ELEGIR CASO (dato):
+			1:
+				out_string[listaClientes[id].nombre]
+				salir
+			2:
+				out_string[listaClientes[id].direccion]
+				salir
+			3:
+				out_string[listaClientes[id].tipo]
+				salir
+			4:
+				out_string[listaClientes[id].credito]
+				salir
